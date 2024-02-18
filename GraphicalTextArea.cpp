@@ -110,7 +110,7 @@ void GraphicalTextArea::draw(ShaderProgram* shader, double delta) {
 
 
 	// draw text area
-	CharPos char_pos(0, 0);
+	CharPos char_pos{ 0, 0 };
 	CharPos cursor_pos = getRealCursor();
 	for (char_pos.y = 0; char_pos.y < areaSize.y; ++char_pos.y) {
 		for (char_pos.x = 0; char_pos.x < areaSize.x; ++char_pos.x) {
