@@ -75,6 +75,7 @@ bool GraphicalTextArea::keyInput(int key, int scancode, int action, int mods) {
 			selectAll();
 			return true;
 		}
+		break;
 	default:
 		return false;
 	}
