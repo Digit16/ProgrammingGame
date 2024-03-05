@@ -87,14 +87,16 @@ bool GraphicalTextArea::charInput(unsigned int codepoint) {
 	return true;
 }
 
-void GraphicalTextArea::draw(ShaderProgram* shader, double delta) {
-
+void GraphicalTextArea::update(double delta) {
 	// update cursor blink
 	cursorBlinkTimer.update(delta);
 	if (cursorBlinkTimer.done()) {
 		cursorBlinkState = !cursorBlinkState;
 		cursorBlinkTimer.restart();
 	}
+}
+
+void GraphicalTextArea::draw(ShaderProgram* shader) {
 
 	data.clear();
 
