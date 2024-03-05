@@ -19,19 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Callbacks.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GraphicalTextArea.h" />
     <ClInclude Include="LoadOBJ.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="TextArea.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Callbacks.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="LoadOBJ.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="GraphicalTextArea.cpp" />
     <ClCompile Include="TextArea.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\f_2d.glsl" />

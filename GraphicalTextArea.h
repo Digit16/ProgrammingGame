@@ -20,7 +20,8 @@ public:
 	bool keyInput(int key, int scancode, int action, int mods);
 	bool charInput(unsigned int codepoint);
 
-	void draw(ShaderProgram* shader, double delta);
+	void update(double delta);
+	void draw(ShaderProgram* shader);
 
 private:
 	std::vector<DrawData> data;
