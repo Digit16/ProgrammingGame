@@ -49,8 +49,8 @@ void Game::init() {
 	glfwSetKeyCallback(m_window, keyCallback);
 	glfwSetCharCallback(m_window, charCallback);
 
-	m_sp2d = new ShaderProgram("shaders/v_2d.glsl", "shaders/g_2d.glsl", "shaders/f_2d.glsl");
-	m_sp2dPost = new ShaderProgram("shaders/v_post.glsl", nullptr, "shaders/f_post.glsl");
+	m_sp2d = new ShaderProgram("shaders/2d_vec.glsl", "shaders/2d_geom.glsl", "shaders/2d_frag.glsl");
+	m_sp2dPost = new ShaderProgram("shaders/post_vec.glsl", nullptr, "shaders/post_frag.glsl");
 
 	m_asciiTexture = loadTexture("assets/ascii.png");
 

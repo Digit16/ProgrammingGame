@@ -40,11 +40,13 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\f_2d.glsl" />
-    <None Include="shaders\f_post.glsl" />
-    <None Include="shaders\g_2d.glsl" />
-    <None Include="shaders\v_2d.glsl" />
-    <None Include="shaders\v_post.glsl" />
+    <None Include="shaders\2d_frag.glsl" />
+    <None Include="shaders\post_frag.glsl" />
+    <None Include="shaders\tex_quad_frag.glsl" />
+    <None Include="shaders\2d_geom.glsl" />
+    <None Include="shaders\2d_vec.glsl" />
+    <None Include="shaders\post_vec.glsl" />
+    <None Include="shaders\tex_quad_vec.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\ascii.png" />
