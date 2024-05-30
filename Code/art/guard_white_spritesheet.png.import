@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://baficnup6ijqj"
-path="res://.godot/imported/guard_white_spritesheet.png-def9f42052e82cdcd07cad6df1d2ff53.ctex"
+path="res://.godot/imported/guard_white_spritesheet.png-46984e5542eb456a542bba799d88a295.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://guard_white_spritesheet.png"
-dest_files=["res://.godot/imported/guard_white_spritesheet.png-def9f42052e82cdcd07cad6df1d2ff53.ctex"]
+source_file="res://art/guard_white_spritesheet.png"
+dest_files=["res://.godot/imported/guard_white_spritesheet.png-46984e5542eb456a542bba799d88a295.ctex"]
 
 [params]
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://dbo36vmj0nqvx"]
+[gd_scene load_steps=11 format=3 uid="uid://cchfvbtuste6s"]
 
-[ext_resource type="Texture2D" uid="uid://baficnup6ijqj" path="res://art/guard_white_spritesheet.png" id="1_dypd0"]
+[ext_resource type="Script" path="res://characters/player_robot.gd" id="1_yhcxv"]
+[ext_resource type="Texture2D" uid="uid://baficnup6ijqj" path="res://art/guard_white_spritesheet.png" id="2_kmme5"]
 
 [sub_resource type="Animation" id="Animation_jkw8f"]
 length = 0.001
@@ -100,14 +101,23 @@ _data = {
 "walk_up": SubResource("Animation_xaqv3")
 }
 
-[node name="Character" type="Sprite2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wlo6i"]
+size = Vector2(14, 14)
+
+[node name="PLayerRobot" type="CharacterBody2D"]
+position = Vector2(72, 72)
+script = ExtResource("1_yhcxv")
+
+[node name="Character" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("1_dypd0")
+texture = ExtResource("2_kmme5")
 hframes = 4
 vframes = 7
-frame = 7
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Character"]
 libraries = {
 "": SubResource("AnimationLibrary_el0e8")
 }
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wlo6i")

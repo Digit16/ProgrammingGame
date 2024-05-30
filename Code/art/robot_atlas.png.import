@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://os7624ctmhq3"
-path="res://.godot/imported/robot_atlas.png-857008fff6ab7061daf1407016ec83be.ctex"
+path="res://.godot/imported/robot_atlas.png-4ab4b4dbdf78ee7f440d01daa2a63cc1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://robot_atlas.png"
-dest_files=["res://.godot/imported/robot_atlas.png-857008fff6ab7061daf1407016ec83be.ctex"]
+source_file="res://art/robot_atlas.png"
+dest_files=["res://.godot/imported/robot_atlas.png-4ab4b4dbdf78ee7f440d01daa2a63cc1.ctex"]
 
 [params]
 
