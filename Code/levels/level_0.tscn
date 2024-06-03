@@ -1,10 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://dgm4e3dj1l320"]
+[gd_scene load_steps=11 format=3 uid="uid://dgm4e3dj1l320"]
 
 [ext_resource type="Texture2D" uid="uid://gjijdcmfbxj8" path="res://tile_1.tres" id="1_t7suy"]
 [ext_resource type="Texture2D" uid="uid://f10p5ta4s45s" path="res://tile_2.tres" id="2_5vetc"]
 [ext_resource type="Script" path="res://TileMap.gd" id="3_lxvoo"]
 [ext_resource type="Texture2D" uid="uid://2irxnruutj1k" path="res://wall.tres" id="4_jqhi7"]
-[ext_resource type="PackedScene" uid="uid://buh0ugmmn3l7b" path="res://controls.tscn" id="5_7c6gc"]
 [ext_resource type="PackedScene" uid="uid://cchfvbtuste6s" path="res://characters/player_robot.tscn" id="6_hjdgv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tmxr5"]
@@ -44,10 +43,9 @@ format = 2
 layer_0/tile_data = PackedInt32Array(393225, 0, 0, 327689, 0, 0, 262153, 0, 0, 196617, 0, 0, 131081, 0, 0, 65545, 0, 0, 9, 0, 0, 8, 0, 0, 7, 0, 0, 6, 0, 0, 5, 0, 0, 4, 0, 0, 3, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 0, 65536, 0, 0, 131072, 0, 0, 196608, 0, 0, 262144, 0, 0, 327680, 0, 0, 393216, 0, 0, 458752, 0, 0, 524288, 0, 0, 589824, 0, 0, 589825, 0, 0, 589826, 0, 0, 589827, 0, 0, 589828, 0, 0, 589829, 0, 0, 589830, 0, 0, 589831, 0, 0, 589832, 0, 0, 589833, 0, 0, 524297, 0, 0, 458761, 0, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(173, 73)
-zoom = Vector2(3, 3)
-
-[node name="CanvasLayer" parent="." instance=ExtResource("5_7c6gc")]
+position = Vector2(143, 80)
+rotation = 1.39626
+zoom = Vector2(4, 4)
 
 [node name="PlayerRobot" parent="." instance=ExtResource("6_hjdgv")]
 position = Vector2(120, 72)
