@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://vb8lfikq5dc7"]
+
+[ext_resource type="Texture2D" uid="uid://qjc32syn3dc3" path="res://art/tiles/boxes.png" id="1_1ui2s"]
+[ext_resource type="Script" path="res://box.gd" id="1_cn5ge"]
+[ext_resource type="PackedScene" uid="uid://diywhsmnxkx8p" path="res://interaction/interaction area/interaction_area.tscn" id="2_p31mp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ewkg"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sp45l"]
+size = Vector2(34, 31)
+
+[node name="Box" type="CharacterBody2D" groups=["removable"]]
+disable_mode = 2
+collision_layer = 2
+script = ExtResource("1_cn5ge")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_1ui2s")
+hframes = 2
+vframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1ewkg")
+
+[node name="InteractionArea" parent="." instance=ExtResource("2_p31mp")]
+action_name = "pick_up"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_sp45l")

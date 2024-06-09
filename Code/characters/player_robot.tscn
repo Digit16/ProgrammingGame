@@ -142,7 +142,7 @@ states/hit_down/node = SubResource("AnimationNodeAnimation_aslvr")
 states/hit_down/position = Vector2(541, 99)
 transitions = ["Start", "Walk", SubResource("AnimationNodeStateMachineTransition_ojakp"), "Walk", "hit_down", SubResource("AnimationNodeStateMachineTransition_uuo4r")]
 
-[node name="PlayerRobot" type="CharacterBody2D"]
+[node name="PlayerRobot" type="CharacterBody2D" groups=["player"]]
 position = Vector2(72, 72)
 script = ExtResource("1_yhcxv")
 
@@ -151,7 +151,7 @@ texture_filter = 1
 texture = ExtResource("2_kmme5")
 hframes = 4
 vframes = 7
-frame = 17
+frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wlo6i")

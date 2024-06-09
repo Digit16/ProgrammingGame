@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 signal done
+signal  picked_up
 
 var targetPos = Vector2.ZERO
 var facing = Vector2.ZERO
@@ -8,6 +9,7 @@ var prevPos = Vector2.ZERO
 var waiting = true
 var abort = false
 var commands = []
+var inventory = []
 
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
@@ -39,6 +41,8 @@ func _process(_delta):
 			_on_node_left()
 		if c == 'r':
 			_on_node_right()
+		if c == 'p':
+			_on_pick_up()
 		animation_tree.set("parameters/Walk/blend_position", facing)
 	else:
 		self.position = self.position.lerp(targetPos, 4 * _delta)
@@ -83,3 +87,8 @@ func _on_node_up():
 	facing.y = -1
 	prevPos = targetPos
 	targetPos.y -= 16
+
+var removal_distance = 32
+
+func _on_pick_up():
+	emit_signal("picked_up")
