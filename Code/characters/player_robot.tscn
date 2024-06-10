@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cchfvbtuste6s"]
+[gd_scene load_steps=21 format=3 uid="uid://cchfvbtuste6s"]
 
 [ext_resource type="Script" path="res://characters/player_robot.gd" id="1_yhcxv"]
 [ext_resource type="Texture2D" uid="uid://baficnup6ijqj" path="res://art/guard_white_spritesheet.png" id="2_kmme5"]
@@ -8,6 +8,18 @@ size = Vector2(14, 14)
 
 [sub_resource type="Animation" id="Animation_jkw8f"]
 length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
 
 [sub_resource type="Animation" id="Animation_nbbsm"]
 resource_name = "hit_down"
@@ -94,10 +106,26 @@ tracks/0/keys = {
 "values": [4, 5, 6, 7]
 }
 
+[sub_resource type="Animation" id="Animation_7h3gl"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_el0e8"]
 _data = {
 "RESET": SubResource("Animation_jkw8f"),
 "hit_down": SubResource("Animation_nbbsm"),
+"idle": SubResource("Animation_7h3gl"),
 "walk_down": SubResource("Animation_es8xn"),
 "walk_left": SubResource("Animation_w4iga"),
 "walk_right": SubResource("Animation_trk07"),
@@ -130,17 +158,20 @@ blend_mode = 1
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aslvr"]
 animation = &"hit_down"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ojakp"]
-advance_mode = 2
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rlldy"]
+animation = &"idle"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_uuo4r"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xfdoi"]
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_0odwy"]
 states/Walk/node = SubResource("AnimationNodeBlendSpace2D_4nxwq")
 states/Walk/position = Vector2(387, 100)
 states/hit_down/node = SubResource("AnimationNodeAnimation_aslvr")
 states/hit_down/position = Vector2(541, 99)
-transitions = ["Start", "Walk", SubResource("AnimationNodeStateMachineTransition_ojakp"), "Walk", "hit_down", SubResource("AnimationNodeStateMachineTransition_uuo4r")]
+states/idle/node = SubResource("AnimationNodeAnimation_rlldy")
+states/idle/position = Vector2(367, 196)
+transitions = ["Start", "Walk", SubResource("AnimationNodeStateMachineTransition_xfdoi")]
 
 [node name="PlayerRobot" type="CharacterBody2D" groups=["player"]]
 position = Vector2(72, 72)
