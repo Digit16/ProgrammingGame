@@ -8,7 +8,7 @@
 size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sp45l"]
-size = Vector2(34, 31)
+size = Vector2(1, 24)
 
 [node name="Box" type="CharacterBody2D" groups=["removable"]]
 disable_mode = 2
@@ -27,5 +27,10 @@ shape = SubResource("RectangleShape2D_1ewkg")
 action_name = "pick_up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
-position = Vector2(0, -0.5)
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_sp45l")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, 0.5)
+rotation = 1.5708
 shape = SubResource("RectangleShape2D_sp45l")

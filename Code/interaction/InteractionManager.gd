@@ -5,6 +5,10 @@ extends Node2D
 var active_areas = []
 var can_interact = true
 
+# Assuming player has a direction variable to determine its facing direction
+# Directions can be "up", "down", "left", "right"
+var player_facing_direction: String
+
 func _ready():
 	player.connect("picked_up", Callable(self, "_on_interact"))
 
