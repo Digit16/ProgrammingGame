@@ -5,76 +5,61 @@
 #include <string>
 #include <variant>
 
-enum class TokenType : uint8_t {
-  INTEGER = 1,
-  PLUS = 2,
-  MINUS = 3,
-  MULTIPLICATION = 4,
-  DIVISION = 5,
-  LPAREN = 6,
-  RPAREN = 7,
-  END_OF_FILE = 8,
-  NONE = 9
+enum class TokenType : uint8_t
+{
+    INTEGER = 1,
+    FLOATING_NUMBER = 2,
+    PLUS = 3,
+    MINUS = 4,
+    MULTIPLICATION = 5,
+    DIVISION = 6,
+    LPAREN = 7,
+    RPAREN = 8,
+    END_OF_FILE = 9,
+    NONE = 10,
+    ID = 11,
+    START = 12,
+    END = 13,
+    ASSIGN = 14,
+    COLON = 15,
+    SEMICOLON = 16,
+    DOT = 17,
+    COMMA = 18,
+    FUN = 20,
+    IF = 21,
+    ELSE = 22,
+    FOR = 23,
+    WHILE = 24,
+    COMPARISON = 25,
+    BOOL_VALUE = 26,
+    NOT_EQUAL = 27,
+    GREATER = 28,
+    LESS = 29,
+    GREATER_EQUAL = 30,
+    LESS_EQUAL = 31
 };
 
-class Token {
+class Token
+{
 public:
-  explicit Token(std::variant<int, char, std::nullptr_t> value, TokenType type)
-      : _value(value), _type(type){};
+    static constexpr std::array<TokenType, 4> arithmeticTokenTypes{TokenType::PLUS, TokenType::MINUS, TokenType::MULTIPLICATION, TokenType::DIVISION};
+    static constexpr std::array<TokenType, 6> comparisonTokenTypes{
+        TokenType::COMPARISON, TokenType::NOT_EQUAL, TokenType::GREATER, TokenType::LESS, TokenType::GREATER_EQUAL, TokenType::LESS_EQUAL};
 
-  static std::string typeToString(TokenType type) {
-    switch (type) {
-    case TokenType::INTEGER:
-      return "INTEGER";
-    case TokenType::PLUS:
-      return "PLUS";
-    case TokenType::MINUS:
-      return "MINUS";
-    case TokenType::MULTIPLICATION:
-      return "MULTIPLICATION";
-    case TokenType::DIVISION:
-      return "DIVISION";
-    case TokenType::LPAREN:
-      return "LPAREN";
-    case TokenType::RPAREN:
-      return "RPAREN";
-    case TokenType::END_OF_FILE:
-      return "END_OF_FILE";
-    case TokenType::NONE:
-      return "NONE";
-    }
+    Token(std::variant<int, float, char, std::nullptr_t, std::string, bool> value, TokenType type) :
+        _value(value),
+        _type(type){};
 
-    throw std::runtime_error(
-        "TokenType not implemented, string conversion is not possible");
-  }
+    static std::string typeToString(TokenType type);
 
-  std::string toString() const {
-    if (std::holds_alternative<int>(_value)) {
-      return std::format("TOKEN({},{})", typeToString(_type),
-                         std::to_string(std::get<int>(_value)));
-    } else if (std::holds_alternative<char>(_value)) {
-      return std::format("TOKEN({},{})", typeToString(_type),
-                         std::get<char>(_value));
-    } else if (std::holds_alternative<std::nullptr_t>(_value)) {
-      return std::format("TOKEN({},{})", typeToString(_type), "NONE");
-    } else {
-      throw std::runtime_error(
-          std::format("Variant holds unsupported type '{}", _value.index()));
-    }
-  }
+    std::string toDebugString() const;
 
-  TokenType getType() const { return _type; }
+    std::variant<int, float, bool> getFlexNumber() const;
+    std::string getStringValue() const;
 
-  int getIntegerValue() const {
-    if (std::holds_alternative<int>(_value)) {
-      return std::get<int>(_value);
-    }
-
-    throw std::runtime_error(
-        "Variant does not hold integer inside, cannot return value of it");
-  }
+    TokenType getType() const { return _type; }
 
 private:
-  std::variant<int, char, std::nullptr_t> _value;
-  TokenType _type;
+    std::variant<int, float, char, std::nullptr_t, std::string, bool> _value;
+    TokenType _type;
 };

@@ -1,103 +1,58 @@
 #pragma once
 
+#include "Ast.h"
+#include "Lexer.h"
+
 #include <algorithm>
 #include <spdlog/spdlog.h>
 #include <vector>
 
-#include "Ast.h"
-#include "Lexer.h"
-#include "Token.h"
-
-class Parser {
+class Parser
+{
 public:
-  explicit Parser(const Lexer &lexer)
-      : _lexer(lexer), _currentToken(_lexer.getNextToken()) {}
-
-  void raiseInvalidSyntaxError() const {
-    throw std::runtime_error("Invalid syntax");
-  }
-
-  void eat(TokenType tokenType) {
-    if (_currentToken.getType() == tokenType) {
-      _currentToken = _lexer.getNextToken();
-    } else {
-      raiseInvalidSyntaxError();
-    }
-  }
-
-  // factor : INTEGER | LPAREN expr RPAREN
-  std::shared_ptr<AstNode> factor() {
-    Token token = _currentToken;
-    if (token.getType() == TokenType::INTEGER) {
-      eat(TokenType::INTEGER);
-
-      return std::make_shared<Number>(token);
-    } else if (token.getType() == TokenType::LPAREN) {
-      eat(TokenType::LPAREN);
-      std::shared_ptr<AstNode> result = expr();
-      eat(TokenType::RPAREN);
-
-      auto binOp = std::dynamic_pointer_cast<BinaryOperation>(result);
-      if (!binOp) {
-        throw std::runtime_error("Casting failed");
-      }
-      return std::make_shared<BinaryOperation>(*binOp);
-    } else {
-      throw std::runtime_error("Unknown token type in factor method");
-    }
-  }
-
-  // term : factor ((MUL | DIV) factor)*
-  std::shared_ptr<AstNode> term() {
-    std::shared_ptr<AstNode> node = factor();
-
-    while ((_currentToken.getType() == TokenType::MULTIPLICATION) ||
-           (_currentToken.getType() == TokenType::DIVISION)) {
-
-      const Token token = _currentToken;
-      if (token.getType() == TokenType::MULTIPLICATION) {
-        eat(TokenType::MULTIPLICATION);
-      } else if (token.getType() == TokenType::DIVISION) {
-        eat(TokenType::DIVISION);
-      }
-
-      const auto left = node;
-      const auto right = factor();
-      node = std::make_shared<BinaryOperation>(left, token, right);
+    explicit Parser(const Lexer& lexer) :
+        _lexer(lexer),
+        _currentToken(_lexer.getNextToken())
+    {
     }
 
-    return node;
-  }
+    void raiseInvalidSyntaxError() const { throw std::runtime_error("Invalid syntax"); }
 
-  /*
-  expr   : term ((PLUS | MINUS) term)*
-  term   : factor ((MUL | DIV) factor)*
-  factor : INTEGER
-  */
-  std::shared_ptr<AstNode> expr() {
-    std::shared_ptr<AstNode> node = term();
+    void eat(TokenType tokenType);
 
-    while ((_currentToken.getType() == TokenType::PLUS) ||
-           (_currentToken.getType() == TokenType::MINUS)) {
+    std::shared_ptr<AstNode> factor();
 
-      const Token token = _currentToken;
-      if (token.getType() == TokenType::PLUS) {
-        eat(TokenType::PLUS);
-      } else if (token.getType() == TokenType::MINUS) {
-        eat(TokenType::MINUS);
-      }
+    std::shared_ptr<AstNode> term();
 
-      const auto left = node;
-      const auto right = term();
-      node = std::make_shared<BinaryOperation>(left, token, right);
-    }
+    std::shared_ptr<AstNode> expr();
 
-    return node;
-  }
+    std::shared_ptr<AstNode> program();
 
-  std::shared_ptr<AstNode> parse() { return expr(); }
+    std::shared_ptr<AstNode> section();
+
+    std::shared_ptr<AstNode> statement();
+
+    std::vector<std::shared_ptr<AstNode>> statementList();
+
+    std::shared_ptr<AstNode> assignmentStatement();
+
+    std::shared_ptr<AstNode> variable();
+
+    std::shared_ptr<AstNode> empty();
+
+    std::shared_ptr<AstNode> parse();
+
+    std::shared_ptr<AstNode> ifStatement();
+
+    std::shared_ptr<AstNode> functionDeclaration();
+
+    std::shared_ptr<AstNode> functionCall();
+
+    std::shared_ptr<AstNode> whileStatement();
+
+    std::shared_ptr<AstNode> forStatement();
 
 private:
-  Lexer _lexer;
-  Token _currentToken;
+    Lexer _lexer;
+    Token _currentToken;
 };

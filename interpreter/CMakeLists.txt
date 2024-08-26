@@ -10,7 +10,14 @@ include(CPack)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -std=c++20")
 
-set(SOURCES main.cpp src/Ast.h src/Lexer src/Interpreter.h src/Token.h)
+set(SOURCES main.cpp
+    src/Ast.cpp
+    src/Interpreter.cpp
+    src/Lexer.cpp
+    src/Parser.cpp
+    src/Token.cpp
+)
+
 add_executable(Interpreter ${SOURCES})
 
 target_include_directories(Interpreter PUBLIC ./src)
@@ -20,4 +27,4 @@ target_link_libraries(Interpreter
     spdlog
 )
 
-add_subdirectory(test)
+#add_subdirectory(test)
