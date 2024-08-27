@@ -13,6 +13,7 @@ var inventory = []
 
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
+@onready var end = get_tree().get_first_node_in_group("end")
 
 func _ready():
 	targetPos = self.position
@@ -64,6 +65,14 @@ func _process(_delta):
 				if commands.is_empty():
 					emit_signal("done")
 				waiting = true
+				if _check_plate_reached():
+					abort = true
+
+func _check_plate_reached():
+	if self.position.distance_to(end.position) < 1.0:
+		print("Plate reached! Loading next level.")
+		animation_tree.active = false
+		return true
 
 func _on_node_down():
 	facing = Vector2(0, 1)
