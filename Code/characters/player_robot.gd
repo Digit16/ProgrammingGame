@@ -72,6 +72,9 @@ func _check_plate_reached():
 	if self.position.distance_to(end.position) < 1.0:
 		print("Plate reached! Loading next level.")
 		animation_tree.active = false
+		var next_level_path = "res://levels/level_1.tscn"
+		if ResourceLoader.exists(next_level_path):
+			get_tree().change_scene_to_file(next_level_path)
 		return true
 
 func _on_node_down():
