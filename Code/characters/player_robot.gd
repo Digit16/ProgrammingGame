@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 signal done
 signal picked_up
+signal push
 
 var targetPos = Vector2.ZERO
 var facing = Vector2(0, 1) # Default direction facing down
@@ -65,17 +66,6 @@ func _process(_delta):
 				if commands.is_empty():
 					emit_signal("done")
 				waiting = true
-				if _check_plate_reached():
-					abort = true
-
-func _check_plate_reached():
-	if self.position.distance_to(end.position) < 1.0:
-		print("Plate reached! Loading next level.")
-		animation_tree.active = false
-		var next_level_path = "res://levels/level_1.tscn"
-		if ResourceLoader.exists(next_level_path):
-			get_tree().change_scene_to_file(next_level_path)
-		return true
 
 func _on_node_down():
 	facing = Vector2(0, 1)
@@ -111,3 +101,4 @@ var removal_distance = 32
 
 func _on_pick_up():
 	emit_signal("picked_up")
+

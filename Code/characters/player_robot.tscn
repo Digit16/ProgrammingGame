@@ -175,6 +175,8 @@ transitions = ["Start", "Walk", SubResource("AnimationNodeStateMachineTransition
 
 [node name="PlayerRobot" type="CharacterBody2D" groups=["player"]]
 position = Vector2(72, 72)
+collision_layer = 8
+collision_mask = 2
 script = ExtResource("1_yhcxv")
 
 [node name="Character" type="Sprite2D" parent="."]
