@@ -24,7 +24,7 @@ func _process(delta):
 		previous_position = position
 
 func _on_interact():
-	var direction = (position - floor(player.position)).normalized()
+	var direction = (position - player.position).normalized()
 	var new_position = position + direction * tile_size
 	position = new_position
 	emit_signal("position_changed")
