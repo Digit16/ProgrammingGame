@@ -1,9 +1,12 @@
 #pragma once
 
+
 #include <cstdint>
-#include <format>
 #include <string>
 #include <variant>
+#include <array>
+#include <sstream>
+
 
 enum class TokenType : uint8_t
 {

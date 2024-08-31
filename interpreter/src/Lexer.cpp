@@ -177,13 +177,13 @@ Token Lexer::id()
             this->advance();
         }
 
-        if (RESERVED_KEYWORDS.contains(varResult)) {
+        if (RESERVED_KEYWORDS.count(varResult)) {
             throw std::runtime_error(varResult + " is reserved keyword!");
         } else {
             return Token(varResult, TokenType::ID);
         }
     } else {
-        if (RESERVED_KEYWORDS.contains(result)) {
+        if (RESERVED_KEYWORDS.count(result)) {
             return RESERVED_KEYWORDS.at(result);
         } else {
             return Token(result, TokenType::ID);

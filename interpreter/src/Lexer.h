@@ -1,8 +1,9 @@
 #pragma once
 
+#include <map>
+
 #include "Token.h"
 
-#include <map>
 
 class Lexer
 {

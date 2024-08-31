@@ -4,7 +4,6 @@
 #include "Lexer.h"
 
 #include <algorithm>
-#include <spdlog/spdlog.h>
 #include <vector>
 
 class Parser

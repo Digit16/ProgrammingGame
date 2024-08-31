@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "Ast.h"
 #include "Lexer.h"
 #include "Parser.h"
@@ -11,19 +12,19 @@ class NodeVisitor
 public:
     struct VisitNode
     {
-        std::shared_ptr<AstNode> operator()(auto& node);
+        //std::shared_ptr<AstNode> operator()(auto& node);
         std::shared_ptr<AstNode> operator()(BinaryOperation& node);
         std::shared_ptr<AstNode> operator()(Number& node);
         std::shared_ptr<AstNode> operator()(UnaryOp& node);
-        std::shared_ptr<AstNode> operator()(Section& node);
-        std::shared_ptr<AstNode> operator()(Assign& node);
+        std::shared_ptr<AstNode> operator()(Section& node); // stop after
+        std::shared_ptr<AstNode> operator()(Assign& node); // stop after
         std::shared_ptr<AstNode> operator()(Variable& node);
         std::shared_ptr<AstNode> operator()(EmptyNode& node);
-        std::shared_ptr<AstNode> operator()(FunDeclaration& node);
-        std::shared_ptr<AstNode> operator()(FunCall& node);
-        std::shared_ptr<AstNode> operator()(IfStatement& node);
-        std::shared_ptr<AstNode> operator()(WhileLoop& node);
-        std::shared_ptr<AstNode> operator()(ForLoop& node);
+        std::shared_ptr<AstNode> operator()(FunDeclaration& node); // stop after
+        std::shared_ptr<AstNode> operator()(FunCall& node); // stop after
+        std::shared_ptr<AstNode> operator()(IfStatement& node); // stop after
+        std::shared_ptr<AstNode> operator()(WhileLoop& node); // stop after
+        std::shared_ptr<AstNode> operator()(ForLoop& node); // stop after
     };
 
     static std::shared_ptr<AstNode> visit(NodeVariant astNode);

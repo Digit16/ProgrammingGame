@@ -71,17 +71,21 @@ std::string Token::typeToString(TokenType type)
 
 std::string Token::toDebugString() const
 {
+    std::stringstream ss;
+
     if (std::holds_alternative<int>(_value)) {
-        return std::format("TOKEN({},{})", typeToString(_type), std::to_string(std::get<int>(_value)));
+        ss << "TOKEN(" << typeToString(_type) << "," << std::to_string(std::get<int>(_value)) << ")";
     } else if (std::holds_alternative<char>(_value)) {
-        return std::format("TOKEN({},{})", typeToString(_type), std::get<char>(_value));
+        ss << "TOKEN(" << typeToString(_type) << "," << std::get<char>(_value) << ")";
     } else if (std::holds_alternative<std::nullptr_t>(_value)) {
-        return std::format("TOKEN({},{})", typeToString(_type), "NONE");
+        ss << "TOKEN(" << typeToString(_type) << ",NONE)";
     } else if (std::holds_alternative<std::string>(_value)) {
-        return std::format("TOKEN({},{})", typeToString(_type), std::get<std::string>(_value));
+        ss << "TOKEN(" << typeToString(_type) << "," << std::get<std::string>(_value) << ")";
     } else {
-        throw std::runtime_error(std::format("Variant holds unsupported type '{}", _value.index()));
+        throw std::runtime_error("Variant holds unsupported type '" + std::to_string(_value.index()) + "'");
     }
+
+    return ss.str();
 }
 
 std::variant<int, float, bool> Token::getFlexNumber() const

@@ -2,7 +2,8 @@
 
 #include "Token.h"
 
-#include <spdlog/spdlog.h>
+//#include <spdlog/spdlog.h>
+#include <vector>
 
 class AstNode;
 class Number;

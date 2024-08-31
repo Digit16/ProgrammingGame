@@ -225,7 +225,7 @@ std::shared_ptr<AstNode> Parser::ifStatement()
 {
     eat(TokenType::IF);
     auto condition = expr();
-    SPDLOG_INFO("Condition NodeType = '{}'", getTypeString(condition->nodeType()));
+    //SPDLOG_INFO("Condition NodeType = '{}'", getTypeString(condition->nodeType()));
     eat(TokenType::COLON);
     auto thenBranch = section();
     std::shared_ptr<AstNode> elseBranch = nullptr;

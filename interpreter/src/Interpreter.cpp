@@ -1,13 +1,13 @@
 #include "Interpreter.h"
-
 #include "GlobalScope.h"
+
 
 using Visitor = NodeVisitor::VisitNode;
 
-std::shared_ptr<AstNode> Visitor::operator()(auto&)
-{
-    throw std::runtime_error("Unsupported AstNode in NodeVisitor");
-}
+
+std::map<std::string, std::variant<int, float, bool>> GLOBAL_SCOPE;
+std::unordered_map<std::string, std::vector<std::shared_ptr<AstNode>>> GLOBAL_FUNCTIONS;
+
 
 std::shared_ptr<AstNode> Visitor::operator()(BinaryOperation& node)
 {
