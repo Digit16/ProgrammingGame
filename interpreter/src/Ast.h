@@ -3,6 +3,7 @@
 #include "Token.h"
 
 //#include <spdlog/spdlog.h>
+#include <memory>
 #include <vector>
 
 class AstNode;

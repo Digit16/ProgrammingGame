@@ -1,11 +1,34 @@
 #include "Parser.h"
 
+#include <iostream>
+
+void Parser::raiseParsingError(const std::vector<TokenType>& expectedTokenType)
+{
+    if (expectedTokenType.empty()) {
+        throw std::runtime_error("Cannot expect nothing!"); // Should never happen
+    }
+
+    std::string tokenTypeString = "(";
+
+    for (auto type : expectedTokenType) {
+        tokenTypeString += Token::typeToString(type) + "|";
+    }
+    tokenTypeString.pop_back();
+    tokenTypeString += ")";
+
+    std::string message = "Parsing error at line " + std::to_string(lexer().getParsingLine()) + ", position "
+                          + std::to_string(lexer().getParsingPosition()) + ", expected " + tokenTypeString + ", got "
+                          + _currentToken.getParsingInformation();
+
+    throw std::runtime_error(message);
+}
+
 void Parser::eat(TokenType tokenType)
 {
     if (_currentToken.getType() == tokenType) {
         _currentToken = _lexer.getNextToken();
     } else {
-        raiseInvalidSyntaxError();
+        raiseParsingError({tokenType});
     }
 }
 
@@ -48,8 +71,10 @@ std::shared_ptr<AstNode> Parser::factor()
         }
 
         return std::make_shared<BinaryOperation>(*binOp);
-    } else {
+    } else if (token.getType() == TokenType::ID) {
         return variable();
+    } else {
+        raiseParsingError({TokenType::PLUS, TokenType::MINUS, TokenType::INTEGER, TokenType::FLOATING_NUMBER, TokenType::LPAREN, TokenType::ID});
     }
 }
 
@@ -183,7 +208,7 @@ std::vector<std::shared_ptr<AstNode>> Parser::statementList()
     }
 
     if (_currentToken.getType() == TokenType::ID) {
-        raiseInvalidSyntaxError();
+        throw std::runtime_error("Variable after semicolon in statement list");
     }
 
     return nodes;
@@ -225,7 +250,7 @@ std::shared_ptr<AstNode> Parser::ifStatement()
 {
     eat(TokenType::IF);
     auto condition = expr();
-    //SPDLOG_INFO("Condition NodeType = '{}'", getTypeString(condition->nodeType()));
+    // SPDLOG_INFO("Condition NodeType = '{}'", getTypeString(condition->nodeType()));
     eat(TokenType::COLON);
     auto thenBranch = section();
     std::shared_ptr<AstNode> elseBranch = nullptr;
@@ -301,7 +326,7 @@ std::shared_ptr<AstNode> Parser::parse()
 {
     auto node = program();
     if (_currentToken.getType() != TokenType::END_OF_FILE) {
-        raiseInvalidSyntaxError();
+        raiseParsingError({TokenType::END_OF_FILE});
     }
 
     return node;

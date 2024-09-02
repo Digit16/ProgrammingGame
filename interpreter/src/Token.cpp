@@ -7,7 +7,7 @@ std::string Token::typeToString(TokenType type)
     case TokenType::INTEGER:
         return "INTEGER";
     case TokenType::FUN:
-        return "FUN";
+        return "FUNCTION";
     case TokenType::FLOATING_NUMBER:
         return "FLOATING_NUMBER";
     case TokenType::COLON:
@@ -23,15 +23,15 @@ std::string Token::typeToString(TokenType type)
     case TokenType::DIVISION:
         return "DIVISION";
     case TokenType::LPAREN:
-        return "LPAREN";
+        return "LEFT PARENTHESIS";
     case TokenType::RPAREN:
-        return "RPAREN";
+        return "RIGHT PARENTHESIS";
     case TokenType::END_OF_FILE:
-        return "END_OF_FILE";
+        return "END OF FILE";
     case TokenType::NONE:
         return "NONE";
     case TokenType::ID:
-        return "ID";
+        return "VARIABLE NAME";
     case TokenType::DOT:
         return "DOT";
     case TokenType::COMMA:
@@ -53,17 +53,19 @@ std::string Token::typeToString(TokenType type)
     case TokenType::COMPARISON:
         return "COMPARISON";
     case TokenType::BOOL_VALUE:
-        return "BOOL_VALUE";
+        return "BOOL VALUE";
     case TokenType::NOT_EQUAL:
-        return "NOT_EQUAL";
+        return "NOT EQUAL";
     case TokenType::GREATER:
         return "GREATER";
     case TokenType::LESS:
         return "LESS";
     case TokenType::GREATER_EQUAL:
-        return "GREATER_EQUAL";
+        return "GREATER EQUAL";
     case TokenType::LESS_EQUAL:
-        return "LESS_EQUAL";
+        return "LESS EQUAL";
+    case TokenType::NEWLINE:
+        return "NEW LINE";
     }
 
     throw std::runtime_error("TokenType not implemented, string conversion is not possible");
@@ -86,6 +88,21 @@ std::string Token::toDebugString() const
     }
 
     return ss.str();
+}
+
+std::string Token::getParsingInformation() const
+{
+    if (std::holds_alternative<int>(_value)) {
+        return std::to_string(std::get<int>(_value));
+    } else if (std::holds_alternative<char>(_value)) {
+        return std::string(1, std::get<char>(_value));
+    } else if (std::holds_alternative<std::nullptr_t>(_value)) {
+        return "empty token";
+    } else if (std::holds_alternative<std::string>(_value)) {
+        return std::get<std::string>(_value);
+    } else {
+        throw std::runtime_error("Variant holds unsupported type '" + std::to_string(_value.index()) + "'");
+    }
 }
 
 std::variant<int, float, bool> Token::getFlexNumber() const

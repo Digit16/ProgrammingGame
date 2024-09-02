@@ -1,10 +1,10 @@
 #pragma once
 
-
 #include "Ast.h"
 #include "Lexer.h"
 #include "Parser.h"
 
+#include <unordered_map>
 #include <variant>
 
 class NodeVisitor
@@ -12,7 +12,7 @@ class NodeVisitor
 public:
     struct VisitNode
     {
-        //std::shared_ptr<AstNode> operator()(auto& node);
+        // std::shared_ptr<AstNode> operator()(auto& node);
         std::shared_ptr<AstNode> operator()(BinaryOperation& node);
         std::shared_ptr<AstNode> operator()(Number& node);
         std::shared_ptr<AstNode> operator()(UnaryOp& node);
@@ -37,4 +37,23 @@ class Interpreter : public NodeVisitor
 {
 public:
     std::shared_ptr<AstNode> interpret(const std::string& text);
+
+    void reset();
+
+    std::map<std::string, std::variant<int, float, bool>>& getGlobalScope() { return GLOBAL_SCOPE; }
+    std::unordered_map<std::string, std::vector<std::shared_ptr<AstNode>>>& getGlobalFunctions() { return GLOBAL_FUNCTIONS; }
+
+    void raiseExecutionError(uint16_t currentLine, int16_t currentPositon = -1) const;
+
+    // tutaj raise odpowiedni exception wraz z argumentami w postaci currentLine oraz currentPosition
+    // rozwiazac jakos to z ast
+
+private:
+    std::map<std::string, std::variant<int, float, bool>> GLOBAL_SCOPE;
+    std::unordered_map<std::string, std::vector<std::shared_ptr<AstNode>>> GLOBAL_FUNCTIONS;
+
+    uint16_t _executionPosition;
+    uint16_t _executionLine;
+
+    Parser _parser;
 };

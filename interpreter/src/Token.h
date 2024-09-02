@@ -1,12 +1,10 @@
 #pragma once
 
-
+#include <array>
 #include <cstdint>
+#include <sstream>
 #include <string>
 #include <variant>
-#include <array>
-#include <sstream>
-
 
 enum class TokenType : uint8_t
 {
@@ -39,7 +37,8 @@ enum class TokenType : uint8_t
     GREATER = 28,
     LESS = 29,
     GREATER_EQUAL = 30,
-    LESS_EQUAL = 31
+    LESS_EQUAL = 31,
+    NEWLINE = 32
 };
 
 class Token
@@ -56,6 +55,8 @@ public:
     static std::string typeToString(TokenType type);
 
     std::string toDebugString() const;
+
+    std::string getParsingInformation() const;
 
     std::variant<int, float, bool> getFlexNumber() const;
     std::string getStringValue() const;

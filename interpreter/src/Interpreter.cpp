@@ -1,13 +1,11 @@
 #include "Interpreter.h"
-#include "GlobalScope.h"
 
+#include "GlobalScope.h"
 
 using Visitor = NodeVisitor::VisitNode;
 
-
 std::map<std::string, std::variant<int, float, bool>> GLOBAL_SCOPE;
 std::unordered_map<std::string, std::vector<std::shared_ptr<AstNode>>> GLOBAL_FUNCTIONS;
-
 
 std::shared_ptr<AstNode> Visitor::operator()(BinaryOperation& node)
 {
@@ -239,12 +237,24 @@ std::shared_ptr<AstNode> NodeVisitor::visit(NodeVariant astNode)
 
 std::shared_ptr<AstNode> Interpreter::interpret(const std::string& text)
 {
-    Lexer lexer(text);
-    Parser parser(lexer);
+    reset();
 
-    std::shared_ptr<AstNode> tree = parser.parse();
+    _parser = Parser(Lexer(text));
+
+    std::shared_ptr<AstNode> tree = _parser.parse();
 
     return NodeVisitor::visit(getVariant(tree));
+}
+
+void Interpreter::reset()
+{
+    GLOBAL_SCOPE.clear();
+    GLOBAL_FUNCTIONS.clear();
+
+    _executionLine = -1;
+    _executionPosition = -1;
+
+    _parser = Parser();
 }
 
 // static
