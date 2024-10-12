@@ -60,6 +60,8 @@ func _process(_delta):
 					_on_check_if_can_push()
 				'cm':
 					_on_check_if_can_move()
+				'platform_count':
+					_on_get_platforms_count()
 			animation_tree.set("parameters/Walk/blend_position", facing)
 		else:
 			state_machine.travel("End") # Idle state if no commands are left
@@ -137,7 +139,12 @@ func _on_check_if_can_move() -> bool:
 	print("Final move result: ", can_move_result)
 	return can_move_result
 
-	
 func _on_pick_up():
 	emit_signal("picked_up")
+	
+func _on_get_platforms_count():
+	var platforms = get_tree().get_nodes_in_group("platforms")
+	var platform_count = platforms.size()
+	print("Number of platforms: ", platform_count)
+	return platform_count
 
