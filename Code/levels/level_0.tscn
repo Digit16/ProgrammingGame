@@ -334,7 +334,7 @@ sources/5 = SubResource("TileSetAtlasSource_p6k03")
 
 [node name="level_0" type="Node2D"]
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMap" parent="." groups=["walls"]]
 tile_set = SubResource("TileSet_leduy")
 format = 2
 layer_0/name = "BaseGround"
@@ -356,6 +356,8 @@ position = Vector2(104, 56)
 
 [node name="Box" parent="." instance=ExtResource("6_crsa5")]
 position = Vector2(56, 72)
+collision_layer = 15
+collision_mask = 15
 
 [node name="EndZone" parent="." groups=["platforms"] instance=ExtResource("7_xxre3")]
 z_index = 0
@@ -364,4 +366,4 @@ position = Vector2(56, 104)
 [node name="GameManager" parent="." instance=ExtResource("8_nfk0q")]
 
 [node name="InteractionManager" parent="." groups=["interaction_manager"] instance=ExtResource("9_h8w3f")]
-position = Vector2(104, 56)
+position = Vector2(60, 63)

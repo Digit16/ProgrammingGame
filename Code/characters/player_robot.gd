@@ -58,6 +58,8 @@ func _process(_delta):
 					_on_node_rotate_c_clockwise()
 				'cp':
 					_on_check_if_can_push()
+				'cm':
+					_on_check_if_can_move()
 			animation_tree.set("parameters/Walk/blend_position", facing)
 		else:
 			state_machine.travel("End") # Idle state if no commands are left
@@ -111,6 +113,31 @@ func _on_check_if_can_push() -> bool:
 	print("Final push result: ", can_push_result)
 	return can_push_result
 
+func _on_check_if_can_move() -> bool:
+	var ray_length = 16
+	var ray_end = position + (facing.normalized() * ray_length)
+
+	var query = PhysicsRayQueryParameters2D.new()
+	query.from = position
+	query.to = ray_end
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+
+	var space_state = get_world_2d().direct_space_state
+	var result = space_state.intersect_ray(query)
+	var can_move_result = true
+	if result:
+		var collider = result["collider"]
+		print("Collider detected: ", collider)
+		if collider.is_in_group("walls"):
+			can_move_result = false
+
+	if can_move_result:
+		can_move_result = !await interaction_manager.call("check_can_push")
+	print("Final move result: ", can_move_result)
+	return can_move_result
+
+	
 func _on_pick_up():
 	emit_signal("picked_up")
 
