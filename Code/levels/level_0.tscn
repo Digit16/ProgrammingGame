@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dgm4e3dj1l320"]
+[gd_scene load_steps=14 format=3 uid="uid://dgm4e3dj1l320"]
 
 [ext_resource type="Texture2D" uid="uid://os7624ctmhq3" path="res://art/robot_atlas.png" id="1_qi4vs"]
 [ext_resource type="Texture2D" uid="uid://dwsmec5b5rj0y" path="res://art/tiles/water.png" id="2_1g22o"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cchfvbtuste6s" path="res://characters/player_robot.tscn" id="6_hjdgv"]
 [ext_resource type="PackedScene" uid="uid://deb7q6h0om8hc" path="res://End.tscn" id="7_xxre3"]
 [ext_resource type="PackedScene" uid="uid://5q5c8pt7mew2" path="res://GameManager.tscn" id="8_nfk0q"]
+[ext_resource type="PackedScene" uid="uid://c7m1f03wf08sa" path="res://interaction/InteractionManager.tscn" id="9_h8w3f"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ydj6"]
 texture = ExtResource("1_qi4vs")
@@ -361,3 +362,6 @@ z_index = 0
 position = Vector2(56, 104)
 
 [node name="GameManager" parent="." instance=ExtResource("8_nfk0q")]
+
+[node name="InteractionManager" parent="." groups=["interaction_manager"] instance=ExtResource("9_h8w3f")]
+position = Vector2(104, 56)

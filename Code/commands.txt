@@ -1,6 +1,5 @@
 l
 l
 l
-p
-d
-p
+rc
+cp

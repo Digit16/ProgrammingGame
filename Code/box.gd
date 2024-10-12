@@ -10,9 +10,12 @@ var on_platform = false
 var previous_position = Vector2.ZERO  # Initialize with a default value
 signal position_changed
 signal on_platform_sig
+signal push_result(result: bool) 
 
 func _ready():
+	add_to_group("box")
 	interaction_area.interact = Callable(self, "_on_interact")
+	interaction_area.can_interact = Callable(self, "_on_can_interact")
 	previous_position = position
 	area2d.connect("area_entered", Callable(self, "_on_area_entered"))
 	area2d.connect("area_exited", Callable(self, "_on_area_exited"))
@@ -28,6 +31,15 @@ func _on_interact():
 	var new_position = position + direction * tile_size
 	position = new_position
 	emit_signal("position_changed")
+	
+func _on_can_interact() -> bool:
+	var direction_to_box = (position - player.position).normalized()
+	var player_facing_direction = player.facing.normalized()
+	var is_next_to_box = abs(player.position.x - position.x) <= tile_size.x and abs(player.position.y - position.y) <= tile_size.y
+	var is_facing_box = direction_to_box.dot(player_facing_direction) > 0.9
+	var can_interact = is_next_to_box and is_facing_box
+	emit_signal("push_result", can_interact)  # Emit result when checking if the box can be pushed
+	return can_interact
 
 func _on_area_entered(area):
 	if area.is_in_group("platforms"):

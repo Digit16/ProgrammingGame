@@ -3,6 +3,7 @@ extends CharacterBody2D
 signal done
 signal picked_up
 signal push
+signal can_push
 
 var targetPos = Vector2.ZERO
 var facing = Vector2(0, 1) # Default direction facing down
@@ -11,10 +12,14 @@ var waiting = true
 var abort = false
 var commands = []
 var inventory = []
+var removal_distance = 32
+var can_push_result = false
+var result_received = false
 
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
 @onready var end = get_tree().get_first_node_in_group("end")
+@onready var interaction_manager = get_tree().get_first_node_in_group("interaction_manager")  # Ensure to point to the InteractionManager
 
 func _ready():
 	targetPos = self.position
@@ -25,6 +30,8 @@ func _ready():
 			commands.append(line)
 			print(line)
 	file.close()
+	
+	interaction_manager.connect("can_push_result", Callable(self, "_on_can_push_result"))
 
 func _process(_delta):
 	if abort:
@@ -49,6 +56,8 @@ func _process(_delta):
 					_on_node_rotate_clockwise()
 				'rcc':
 					_on_node_rotate_c_clockwise()
+				'cp':
+					_on_check_if_can_push()
 			animation_tree.set("parameters/Walk/blend_position", facing)
 		else:
 			state_machine.travel("End") # Idle state if no commands are left
@@ -97,7 +106,10 @@ func _on_node_rotate_c_clockwise():
 	print("Rotated counter-clockwise. New facing:", facing)
 	animation_tree.set("parameters/Walk/blend_position", facing)
 
-var removal_distance = 32
+func _on_check_if_can_push() -> bool:
+	var can_push_result = await interaction_manager.call("check_can_push")
+	print("Final push result: ", can_push_result)
+	return can_push_result
 
 func _on_pick_up():
 	emit_signal("picked_up")
