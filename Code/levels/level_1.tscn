@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ds60hc12tavm3"]
+[gd_scene load_steps=14 format=3 uid="uid://ds60hc12tavm3"]
 
 [ext_resource type="Texture2D" uid="uid://os7624ctmhq3" path="res://art/robot_atlas.png" id="1_mkdx5"]
 [ext_resource type="Texture2D" uid="uid://dwsmec5b5rj0y" path="res://art/tiles/water.png" id="2_vwt3w"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://vb8lfikq5dc7" path="res://box.tscn" id="6_jjywg"]
 [ext_resource type="PackedScene" uid="uid://deb7q6h0om8hc" path="res://End.tscn" id="7_you6s"]
 [ext_resource type="PackedScene" uid="uid://c7m1f03wf08sa" path="res://interaction/InteractionManager.tscn" id="8_5uy7b"]
+[ext_resource type="PackedScene" uid="uid://5q5c8pt7mew2" path="res://GameManager.tscn" id="9_0kenn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ydj6"]
 texture = ExtResource("1_mkdx5")
@@ -331,7 +332,7 @@ sources/0 = SubResource("TileSetAtlasSource_0ydj6")
 sources/2 = SubResource("TileSetAtlasSource_y6uth")
 sources/5 = SubResource("TileSetAtlasSource_p6k03")
 
-[node name="level_1" type="Node2D"]
+[node name="level_1" type="Node2D" groups=["level"]]
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_leduy")
@@ -367,3 +368,5 @@ z_index = 1
 position = Vector2(72, 88)
 
 [node name="InteractionManager" parent="." groups=["interaction_manager"] instance=ExtResource("8_5uy7b")]
+
+[node name="GameManager" parent="." groups=["game_manager"] instance=ExtResource("9_0kenn")]

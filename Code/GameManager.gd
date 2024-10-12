@@ -17,6 +17,13 @@ func _initialize_platforms():
 			"platform": platform,
 			"occupied": false
 		})
+		
+func get_occupied_platforms_count():
+	var occupied_count = 0
+	for platform_dict in all_platforms:
+		if platform_dict["occupied"] == true:
+			occupied_count += 1
+	return occupied_count
 
 func _initialize_boxes():
 	# Ensure boxes are initialized after they are added to the scene

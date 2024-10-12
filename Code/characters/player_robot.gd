@@ -23,6 +23,8 @@ var result_received = false
 
 func _ready():
 	targetPos = self.position
+	var root_node = get_tree().root
+	print(root_node.name)
 	var file = FileAccess.open("res://commands.txt", FileAccess.READ)
 	if file:
 		while !file.eof_reached():
@@ -62,6 +64,8 @@ func _process(_delta):
 					_on_check_if_can_move()
 				'platform_count':
 					_on_get_platforms_count()
+				'bop':
+					_on_get_boxes_on_platfor_count()
 			animation_tree.set("parameters/Walk/blend_position", facing)
 		else:
 			state_machine.travel("End") # Idle state if no commands are left
@@ -148,3 +152,9 @@ func _on_get_platforms_count():
 	print("Number of platforms: ", platform_count)
 	return platform_count
 
+func _on_get_boxes_on_platfor_count():
+	var gm = get_tree().get_nodes_in_group("game_manager")[0]
+	var occupied_platforms = gm.get_occupied_platforms_count()
+	print("Number of boxes on platfroms: ", occupied_platforms)
+	return occupied_platforms
+	
