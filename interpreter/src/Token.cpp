@@ -6,10 +6,10 @@ std::string Token::typeToString(TokenType type)
     switch (type) {
     case TokenType::INTEGER:
         return "INTEGER";
-    case TokenType::FUN:
-        return "FUNCTION";
     case TokenType::FLOATING_NUMBER:
         return "FLOATING_NUMBER";
+    case TokenType::BOOL_VALUE:
+        return "BOOL_VALUE";
     case TokenType::COLON:
         return "COLON";
     case TokenType::SEMICOLON:
@@ -23,15 +23,15 @@ std::string Token::typeToString(TokenType type)
     case TokenType::DIVISION:
         return "DIVISION";
     case TokenType::LPAREN:
-        return "LEFT PARENTHESIS";
+        return "LEFT_PARENTHESIS";
     case TokenType::RPAREN:
-        return "RIGHT PARENTHESIS";
+        return "RIGHT_PARENTHESIS";
     case TokenType::END_OF_FILE:
-        return "END OF FILE";
+        return "END_OF_FILE";
     case TokenType::NONE:
         return "NONE";
     case TokenType::ID:
-        return "VARIABLE NAME";
+        return "ID";
     case TokenType::DOT:
         return "DOT";
     case TokenType::COMMA:
@@ -52,20 +52,22 @@ std::string Token::typeToString(TokenType type)
         return "WHILE";
     case TokenType::COMPARISON:
         return "COMPARISON";
-    case TokenType::BOOL_VALUE:
-        return "BOOL VALUE";
     case TokenType::NOT_EQUAL:
-        return "NOT EQUAL";
+        return "NOT_EQUAL";
     case TokenType::GREATER:
         return "GREATER";
     case TokenType::LESS:
         return "LESS";
     case TokenType::GREATER_EQUAL:
-        return "GREATER EQUAL";
+        return "GREATER_EQUAL";
     case TokenType::LESS_EQUAL:
-        return "LESS EQUAL";
+        return "LESS_EQUAL";
     case TokenType::NEWLINE:
-        return "NEW LINE";
+        return "NEWLINE";
+    case TokenType::VARIABLE_DECLARATION:
+        return "VARIABLE_DECLARATION";
+    case TokenType::FUN_DECLARATION:
+        return "FUN_DECLARATION";
     }
 
     throw std::runtime_error("TokenType not implemented, string conversion is not possible");

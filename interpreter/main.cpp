@@ -1,5 +1,4 @@
 #include "./src/Ast.h"
-#include "./src/GlobalScope.h"
 #include "./src/Interpreter.h"
 #include "./src/Lexer.h"
 #include "./src/Parser.h"
@@ -8,10 +7,6 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-// #include <spdlog/spdlog.h>
-
-// std::map<std::string, std::variant<int, float, bool>> GLOBAL_SCOPE;
-// std::unordered_map<std::string, std::vector<std::shared_ptr<AstNode>>> GLOBAL_FUNCTIONS;
 
 int main(int argc, char* argv[])
 {
@@ -48,24 +43,30 @@ int main(int argc, char* argv[])
         } else {
             std::cout << "No file path provided. Use --file=path_to_file" << std::endl;
             if (!arg.empty()) {
-                std::cout << "Argument: " << std::endl;
-                std::cout << "  - " << arg << std::endl;
+                std::cout << "Argument:" << std::endl;
+                std::cout << arg << std::endl;
                 input = arg;
             }
         }
 
         Interpreter interpreter;
-        std::shared_ptr<AstNode> result = interpreter.interpret(input);
+        std::shared_ptr<AstNode> tree = interpreter.buildTree(input);
 
-        std::cout << "Variables:" << std::endl;
+        st::SymbolTable& stRef = interpreter.symbolTable();
+        SymbolTableBuilder stb;
+        stb.build(tree, stRef);
 
-        for (const auto& [name, value] : GLOBAL_SCOPE) {
-            if (std::holds_alternative<int>(value)) {
-                std::cout << "[" << name << " = " << std::get<int>(value) << "]" << std::endl;
-            } else {
-                std::cout << "[" << name << " = " << std::get<float>(value) << "]" << std::endl;
-            }
-        }
+        std::shared_ptr<AstNode> result = interpreter.interpret(tree);
+
+        // std::cout << "Variables:" << std::endl;
+
+        // for (const auto& [name, value] : GLOBAL_SCOPE) {
+        //     if (std::holds_alternative<int>(value)) {
+        //         std::cout << "[" << name << " = " << std::get<int>(value) << "]" << std::endl;
+        //     } else {
+        //         std::cout << "[" << name << " = " << std::get<float>(value) << "]" << std::endl;
+        //     }
+        // }
 
         std::cout << "Result node type: " << getTypeString(result->nodeType()) << std::endl;
 

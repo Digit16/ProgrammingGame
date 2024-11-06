@@ -41,6 +41,8 @@ public:
 
     std::shared_ptr<AstNode> assignmentStatement();
 
+    std::shared_ptr<AstNode> variableDeclaration();
+
     std::shared_ptr<AstNode> variable();
 
     std::shared_ptr<AstNode> empty();

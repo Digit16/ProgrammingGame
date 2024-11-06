@@ -16,9 +16,9 @@ void Parser::raiseParsingError(const std::vector<TokenType>& expectedTokenType)
     tokenTypeString.pop_back();
     tokenTypeString += ")";
 
-    std::string message = "Parsing error at line " + std::to_string(lexer().getParsingLine()) + ", position "
-                          + std::to_string(lexer().getParsingPosition()) + ", expected " + tokenTypeString + ", got "
-                          + _currentToken.getParsingInformation();
+    const std::string message = "Parsing error at line " + std::to_string(lexer().getParsingLine()) + ", position "
+                                + std::to_string(lexer().getParsingPosition()) + ", expected " + tokenTypeString + ", got "
+                                + _currentToken.getParsingInformation();
 
     throw std::runtime_error(message);
 }
@@ -77,8 +77,9 @@ std::shared_ptr<AstNode> Parser::factor()
         raiseParsingError({TokenType::PLUS, TokenType::MINUS, TokenType::INTEGER, TokenType::FLOATING_NUMBER, TokenType::LPAREN, TokenType::ID});
     }
 }
-
-// term : factor ((MUL | DIV) factor)*
+/*
+    term : factor ((MUL | DIV) factor)*
+*/
 std::shared_ptr<AstNode> Parser::term()
 {
     std::shared_ptr<AstNode> node = factor();
@@ -101,8 +102,6 @@ std::shared_ptr<AstNode> Parser::term()
 
 /*
 expr   : term ((PLUS | MINUS) term)*
-term   : factor ((MUL | DIV) factor)*
-factor : INTEGER
 */
 std::shared_ptr<AstNode> Parser::expr()
 {
@@ -163,6 +162,7 @@ std::shared_ptr<AstNode> Parser::section()
 statement : section
           | assignmentStatement
           | ifStatement
+          | variableDeclaration
           | functionDeclaration
           | functionCall
           | whileLoop
@@ -179,13 +179,15 @@ std::shared_ptr<AstNode> Parser::statement()
         return whileStatement();
     } else if (_currentToken.getType() == TokenType::FOR) {
         return forStatement();
+    } else if (_currentToken.getType() == TokenType::VARIABLE_DECLARATION) {
+        return variableDeclaration();
     } else if (_currentToken.getType() == TokenType::ID) {
         if (_lexer.peekNextToken().getType() == TokenType::LPAREN) {
             return functionCall();
         } else {
             return assignmentStatement();
         }
-    } else if (_currentToken.getType() == TokenType::FUN) {
+    } else if (_currentToken.getType() == TokenType::FUN_DECLARATION) {
         return functionDeclaration();
     } else {
         return empty();
@@ -228,6 +230,21 @@ std::shared_ptr<AstNode> Parser::assignmentStatement()
 }
 
 /*
+variableDeclaration : auto ID | auto assignmentStatement
+*/
+std::shared_ptr<AstNode> Parser::variableDeclaration()
+{
+    eat(TokenType::VARIABLE_DECLARATION);
+    if (_currentToken.getType() == TokenType::ASSIGN) {
+        auto assign = assignmentStatement();
+        return std::make_shared<VariableDeclaration>(assign, true);
+    } else {
+        auto variableNode = variable();
+        return std::make_shared<VariableDeclaration>(variableNode);
+    }
+}
+
+/*
 variable : ID
 */
 std::shared_ptr<AstNode> Parser::variable()
@@ -246,11 +263,13 @@ std::shared_ptr<AstNode> Parser::empty()
     return std::make_shared<EmptyNode>();
 }
 
+/*
+ifStatement : IF EXPR COLON SECTION (ELSE COLON)
+*/
 std::shared_ptr<AstNode> Parser::ifStatement()
 {
     eat(TokenType::IF);
     auto condition = expr();
-    // SPDLOG_INFO("Condition NodeType = '{}'", getTypeString(condition->nodeType()));
     eat(TokenType::COLON);
     auto thenBranch = section();
     std::shared_ptr<AstNode> elseBranch = nullptr;
@@ -269,7 +288,7 @@ functionDeclaration : FUN ID LPAREN RPAREN COLON START statementList END SEMI
 */
 std::shared_ptr<AstNode> Parser::functionDeclaration()
 {
-    eat(TokenType::FUN);
+    eat(TokenType::FUN_DECLARATION);
     std::string functionName = _currentToken.getStringValue();
     eat(TokenType::ID);
     eat(TokenType::LPAREN);
@@ -289,7 +308,7 @@ functionCall : ID LPAREN RPAREN
 */
 std::shared_ptr<AstNode> Parser::functionCall()
 {
-    std::string functionName = _currentToken.getStringValue();
+    const std::string functionName = _currentToken.getStringValue();
     eat(TokenType::ID);
     eat(TokenType::LPAREN);
     eat(TokenType::RPAREN);
@@ -297,6 +316,9 @@ std::shared_ptr<AstNode> Parser::functionCall()
     return std::make_shared<FunCall>(functionName);
 }
 
+/*
+whileStatement : WHILE EXPR START SECTION
+*/
 std::shared_ptr<AstNode> Parser::whileStatement()
 {
     eat(TokenType::WHILE);
@@ -307,11 +329,14 @@ std::shared_ptr<AstNode> Parser::whileStatement()
     return std::make_shared<WhileLoop>(condition, body);
 }
 
+/*
+forStatement : FOR LPAREN variableDeclaration SEMICOLON expr SEMICOLON assignmentStatement RPAREN section
+*/
 std::shared_ptr<AstNode> Parser::forStatement()
 {
     eat(TokenType::FOR);
     eat(TokenType::LPAREN);
-    auto initialization = assignmentStatement();
+    auto initialization = variableDeclaration();
     eat(TokenType::SEMICOLON);
     auto condition = expr();
     eat(TokenType::SEMICOLON);

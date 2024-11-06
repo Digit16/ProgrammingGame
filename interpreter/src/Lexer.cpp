@@ -154,13 +154,14 @@ Token Lexer::id()
 {
     std::string result;
     std::map<std::string, Token> RESERVED_KEYWORDS{
-        {"START", Token("START", TokenType::START)},
-        {"END",   Token("END",   TokenType::END)  },
-        {"fun",   Token("fun",   TokenType::FUN)  },
-        {"if",    Token("if",    TokenType::IF)   },
-        {"else",  Token("else",  TokenType::ELSE) },
-        {"for",   Token("for",   TokenType::FOR)  },
-        {"while", Token("while", TokenType::WHILE)}
+        {"START", Token("START", TokenType::START)               },
+        {"END",   Token("END",   TokenType::END)                 },
+        {"auto",  Token("auto",  TokenType::VARIABLE_DECLARATION)},
+        {"fun",   Token("fun",   TokenType::FUN_DECLARATION)     },
+        {"if",    Token("if",    TokenType::IF)                  },
+        {"else",  Token("else",  TokenType::ELSE)                },
+        {"for",   Token("for",   TokenType::FOR)                 },
+        {"while", Token("while", TokenType::WHILE)               }
     };
 
     while (this->_currentChar != '\0' && isalnum(this->_currentChar)) {
@@ -168,24 +169,9 @@ Token Lexer::id()
         this->advance();
     }
 
-    if (result == "auto") {
-        advance();
-        std::string varResult;
-        while (this->_currentChar != '\0' && isalnum(this->_currentChar)) {
-            varResult += this->_currentChar;
-            this->advance();
-        }
-
-        if (RESERVED_KEYWORDS.count(varResult)) {
-            throw std::runtime_error(varResult + " is reserved keyword!");
-        } else {
-            return Token(varResult, TokenType::ID);
-        }
+    if (RESERVED_KEYWORDS.count(result)) {
+        return RESERVED_KEYWORDS.at(result);
     } else {
-        if (RESERVED_KEYWORDS.count(result)) {
-            return RESERVED_KEYWORDS.at(result);
-        } else {
-            return Token(result, TokenType::ID);
-        }
+        return Token(result, TokenType::ID);
     }
 }

@@ -38,10 +38,18 @@ NodeVariant getVariant(const std::shared_ptr<AstNode>& node)
     case NodeType::ASSIGN: {
         auto assign = std::dynamic_pointer_cast<Assign>(node);
         if (!assign) {
-            throw std::runtime_error("Casting to Assignfailed");
+            throw std::runtime_error("Casting to Assign failed");
         }
 
         return NodeVariant(Assign(*assign));
+    }
+    case NodeType::VARIABLE_DECLARATION: {
+        auto variableDeclaration = std::dynamic_pointer_cast<VariableDeclaration>(node);
+        if (!variableDeclaration) {
+            throw std::runtime_error("Casting to VariableDeclaration failed");
+        }
+
+        return NodeVariant(VariableDeclaration(*variableDeclaration));
     }
     case NodeType::VARIABLE: {
         auto variable = std::dynamic_pointer_cast<Variable>(node);

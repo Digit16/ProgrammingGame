@@ -26,7 +26,6 @@ enum class TokenType : uint8_t
     SEMICOLON = 16,
     DOT = 17,
     COMMA = 18,
-    FUN = 20,
     IF = 21,
     ELSE = 22,
     FOR = 23,
@@ -38,7 +37,9 @@ enum class TokenType : uint8_t
     LESS = 29,
     GREATER_EQUAL = 30,
     LESS_EQUAL = 31,
-    NEWLINE = 32
+    NEWLINE = 32,
+    VARIABLE_DECLARATION = 33,
+    FUN_DECLARATION = 34
 };
 
 class Token

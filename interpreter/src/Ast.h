@@ -2,8 +2,8 @@
 
 #include "Token.h"
 
-//#include <spdlog/spdlog.h>
 #include <memory>
+#include <optional>
 #include <vector>
 
 class AstNode;
@@ -12,6 +12,7 @@ class BinaryOperation;
 class UnaryOp;
 class Section;
 class Assign;
+class VariableDeclaration;
 class Variable;
 class EmptyNode;
 class FunDeclaration;
@@ -20,8 +21,19 @@ class IfStatement;
 class WhileLoop;
 class ForLoop;
 
-using NodeVariant =
-    std::variant<Number, BinaryOperation, UnaryOp, Section, Assign, Variable, EmptyNode, FunDeclaration, FunCall, IfStatement, WhileLoop, ForLoop>;
+using NodeVariant = std::variant<Number,
+                                 BinaryOperation,
+                                 UnaryOp,
+                                 Section,
+                                 Assign,
+                                 VariableDeclaration,
+                                 Variable,
+                                 EmptyNode,
+                                 FunDeclaration,
+                                 FunCall,
+                                 IfStatement,
+                                 WhileLoop,
+                                 ForLoop>;
 
 using FlexNumber = std::variant<int, float, bool>;
 
@@ -32,13 +44,14 @@ enum class NodeType : uint8_t
     UNARY_OPERATOR = 2,
     SECTION = 3,
     ASSIGN = 4,
-    VARIABLE = 5,
-    EMPTY = 6,
-    FUN_DECLARATION = 7,
-    FUN_CALL = 8,
-    IF = 9,
-    WHILE = 10,
-    FOR = 11
+    VARIABLE_DECLARATION = 5,
+    VARIABLE = 6,
+    EMPTY = 7,
+    FUN_DECLARATION = 8,
+    FUN_CALL = 9,
+    IF = 10,
+    WHILE = 11,
+    FOR = 12
 };
 
 class Token;
@@ -152,6 +165,34 @@ private:
     std::shared_ptr<AstNode> _left;
     Token _op;
     std::shared_ptr<AstNode> _right;
+};
+
+class VariableDeclaration : public AstNode
+{
+public:
+    VariableDeclaration(std::optional<std::shared_ptr<AstNode>> variable) :
+        _variable(variable),
+        _assignment(std::nullopt),
+        _withAssignment(false)
+    {
+    }
+
+    VariableDeclaration(std::optional<std::shared_ptr<AstNode>> assignment, bool withAssignment) :
+        _variable(std::nullopt),
+        _assignment(assignment),
+        _withAssignment(withAssignment)
+    {
+    }
+
+    std::optional<std::shared_ptr<AstNode>> variable() const { return _variable; }
+    std::optional<std::shared_ptr<AstNode>> assignment() const { return _assignment; }
+
+    NodeType nodeType() const override { return NodeType::VARIABLE_DECLARATION; }
+
+private:
+    std::optional<std::shared_ptr<AstNode>> _variable;
+    std::optional<std::shared_ptr<AstNode>> _assignment;
+    const bool _withAssignment;
 };
 
 class Variable : public AstNode
