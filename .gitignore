@@ -370,3 +370,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+.clang-format
+.devcontainer
+.vscode
+cpp.code-workspace
+formatted_code
