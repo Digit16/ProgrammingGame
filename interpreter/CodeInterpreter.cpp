@@ -2,26 +2,36 @@
 #include <sstream>
 
 #include "CodeInterpreter.h"
-#include "src/GlobalScope.h"
-
 
 void CodeInterpreter::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("interpret"), &CodeInterpreter::interpret);   
 	ClassDB::bind_method(D_METHOD("getVariable"), &CodeInterpreter::getVariable);  
-	ClassDB::bind_method(D_METHOD("getGlobalScope"), &CodeInterpreter::getGlobalScope);  
 }
 
 void CodeInterpreter::interpret(const String& str) {
     std::string text{str.utf8().get_data()};
-    std::shared_ptr<AstNode> result = Interpreter::interpret(text);
+    //std::shared_ptr<AstNode> result = Interpreter::interpret(text);
+	
+	std::shared_ptr<AstNode> tree = interpreter.buildTree(text);
+
+	st::SymbolTable& stRef = interpreter.symbolTable();
+	SymbolTableBuilder stb;
+	stb.build(tree, stRef);
+
+	std::shared_ptr<AstNode> result = interpreter.interpret(tree);
 }
 
 String CodeInterpreter::getVariable(const String& str) {
 	std::string text{str.utf8().get_data()};
 	std::stringstream ssOut;
 	
+	using namespace st;
+	
 	try {
-		std::variant<int, float, bool> value = GLOBAL_SCOPE.at(text); // TODO: Handle exception
+		auto variable = interpreter.symbolTable().findWithType(text, SymbolType::VARIABLE_SYMBOL); // TODO: Handle exception
+		auto variableSymbol = std::dynamic_pointer_cast<VariableSymbol>(variable);
+		
+		std::variant<int, float, bool> value = variableSymbol->getValue();
 		
 		if (std::holds_alternative<int>(value)) {
 			int intValue = std::get<int>(value);
@@ -48,27 +58,5 @@ String CodeInterpreter::getVariable(const String& str) {
 		std::cout << e.what() << std::endl;
 		return String("Error");
 	}
-	
-}
-
-Dictionary CodeInterpreter::getGlobalScope() {
-	
-	Dictionary dict{};
-	
-	for (auto const& [key, value] : GLOBAL_SCOPE) {
-		String strKey = String(key.c_str());
-		
-		if (std::holds_alternative<int>(value)) {
-			dict[strKey] = std::get<int>(value);
-		} else if (std::holds_alternative<float>(value)) {
-			dict[strKey] = std::get<float>(value);
-		} else if (std::holds_alternative<bool>(value)) {
-			dict[strKey] = std::get<bool>(value);
-		} else {
-			std::cout << "Unknown variant" << std::endl;
-		}
-	}
-	
-	return dict;
 	
 }

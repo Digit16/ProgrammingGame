@@ -10,8 +10,11 @@ class CodeInterpreter : public RefCounted, public Interpreter {
 protected:
     static void _bind_methods();
 public:
+	
     void interpret(const String& str);
 	String getVariable(const String& str);
-	Dictionary getGlobalScope();
+	
+private:
+	Interpreter interpreter;
 	
 };
