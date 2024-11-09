@@ -129,6 +129,8 @@ std::string getTypeString(NodeType nt)
         return "UNARY_OPERATOR";
     case NodeType::VARIABLE:
         return "VARIABLE";
+    case NodeType::VARIABLE_DECLARATION:
+        return "VARIABLE_DECLARATION";
     case NodeType::FUN_DECLARATION:
         return "FUN_DECLARATION";
     case NodeType::FUN_CALL:

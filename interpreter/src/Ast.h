@@ -69,7 +69,7 @@ public:
     virtual NodeType nodeType() const = 0;
 };
 
-class Number : public AstNode // Can be bool
+class Number : public AstNode
 {
 public:
     Number(const Token& token) :

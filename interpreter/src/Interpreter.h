@@ -36,7 +36,7 @@ public:
 
     virtual SymbolType symbolType() { return SymbolType::SYMBOL; }
 
-protected:
+    // protected:
     std::string _name;
 };
 
@@ -51,7 +51,7 @@ public:
 
     SymbolType symbolType() override { return SymbolType::BUILT_IN_TYPE_SYMBOL; }
 
-protected:
+    // protected:
     SymbolVariableType _type;
 };
 
@@ -86,7 +86,7 @@ public:
 
     std::vector<std::shared_ptr<AstNode>>& body() { return _function; }
 
-protected:
+    // protected:
     // std::string _functionName;
     std::vector<std::shared_ptr<AstNode>> _function;
 };
@@ -108,9 +108,12 @@ public:
 
     void init();
 
+    void debugPrint();
+
 private:
     std::map<std::string, std::shared_ptr<Symbol>> _symbols;
 };
+
 } // namespace st
 
 // class InterpreterNodeVisitor
@@ -244,6 +247,9 @@ public:
     void operator()(ForLoop& node /*, st::SymbolTable& st*/);
 
     void visit(NodeVariant astNode /*, st::SymbolTable& st*/);
+
+    std::variant<int, float, bool> evaluateExpression(const std::shared_ptr<AstNode> node);
+    std::string getTokenTypeFromVariant(std::variant<int, float, bool> variant);
 
     st::SymbolTable& st;
 };

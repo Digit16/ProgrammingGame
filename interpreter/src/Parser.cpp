@@ -235,7 +235,7 @@ variableDeclaration : auto ID | auto assignmentStatement
 std::shared_ptr<AstNode> Parser::variableDeclaration()
 {
     eat(TokenType::VARIABLE_DECLARATION);
-    if (_currentToken.getType() == TokenType::ASSIGN) {
+    if (_currentToken.getType() == TokenType::ID) {
         auto assign = assignmentStatement();
         return std::make_shared<VariableDeclaration>(assign, true);
     } else {

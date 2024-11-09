@@ -58,17 +58,7 @@ int main(int argc, char* argv[])
 
         std::shared_ptr<AstNode> result = interpreter.interpret(tree);
 
-        // std::cout << "Variables:" << std::endl;
-
-        // for (const auto& [name, value] : GLOBAL_SCOPE) {
-        //     if (std::holds_alternative<int>(value)) {
-        //         std::cout << "[" << name << " = " << std::get<int>(value) << "]" << std::endl;
-        //     } else {
-        //         std::cout << "[" << name << " = " << std::get<float>(value) << "]" << std::endl;
-        //     }
-        // }
-
-        std::cout << "Result node type: " << getTypeString(result->nodeType()) << std::endl;
+        stRef.debugPrint();
 
         return 0;
     }

@@ -46,6 +46,59 @@ void st::SymbolTable::init()
     create(std::make_shared<BuiltInTypeSymbol>("BOOL_VALUE", SymbolVariableType::BOOL_VALUE));
 }
 
+void st::SymbolTable::debugPrint()
+{
+    for (const auto& [symbolName, symbolPtr] : _symbols) {
+        if (!symbolPtr)
+            continue;
+
+        std::cout << "Symbol Name: " << symbolName << "\n";
+        std::cout << "Symbol Type: ";
+
+        switch (symbolPtr->symbolType()) {
+        case SymbolType::SYMBOL:
+            std::cout << "General Symbol\n";
+            break;
+
+        case SymbolType::BUILT_IN_TYPE_SYMBOL: {
+            std::cout << "Built-in Type Symbol\n";
+            auto builtInTypeSymbol = std::dynamic_pointer_cast<BuiltInTypeSymbol>(symbolPtr);
+            if (builtInTypeSymbol) {
+                std::cout << "Type: " << static_cast<int>(builtInTypeSymbol->_type) << "\n";
+            }
+            break;
+        }
+
+        case SymbolType::VARIABLE_SYMBOL: {
+            std::cout << "Variable Symbol\n";
+            auto variableSymbol = std::dynamic_pointer_cast<VariableSymbol>(symbolPtr);
+            if (variableSymbol) {
+                std::cout << "Type: " << variableSymbol->variableType->name() << "\n";
+                std::cout << "Value: ";
+                std::visit([](const auto& val) { std::cout << val; }, variableSymbol->variableValue);
+                std::cout << "\n";
+            }
+            break;
+        }
+
+        case SymbolType::FUNCTION_SYMBOL: {
+            std::cout << "Function Symbol\n";
+            auto functionSymbol = std::dynamic_pointer_cast<FunctionSymbol>(symbolPtr);
+            if (functionSymbol) {
+                std::cout << "Function Body Nodes: " << functionSymbol->body().size() << "\n";
+            }
+            break;
+        }
+
+        default:
+            std::cout << "Unknown Type\n";
+            break;
+        }
+
+        std::cout << "--------------------------\n";
+    }
+}
+
 void stNodeVisitor::operator()(BinaryOperation& node)
 {
     visit(getVariant(node.left()));
@@ -82,19 +135,37 @@ void stNodeVisitor::operator()(Assign& node)
 
 void stNodeVisitor::operator()(VariableDeclaration& node)
 {
-    std::shared_ptr<Variable> variable = std::dynamic_pointer_cast<Variable>(node.variable().value());
+    if (node.variable().has_value()) {
+        std::shared_ptr<Variable> variable = std::dynamic_pointer_cast<Variable>(node.variable().value());
 
-    const std::string variableName = variable->name();
+        const std::string variableName = variable->name();
 
-    if (st.find(variableName)) {
-        const std::string errorMessage = "Variable '" + variableName + "' already exists";
-        throw std::runtime_error(errorMessage);
+        if (st.find(variableName)) {
+            const std::string errorMessage = "Variable '" + variableName + "' already exists";
+            throw std::runtime_error(errorMessage);
+        }
+
+        const std::variant<int, float, bool> variableValue = variable->token().getFlexNumber();
+        std::shared_ptr<st::Symbol> variableType = st.find(Token::typeToString(variable->token().getType()));
+
+        st.create(std::make_shared<st::VariableSymbol>(variableName, variableValue, variableType));
+    } else {
+        std::shared_ptr<Assign> assignment = std::dynamic_pointer_cast<Assign>(node.assignment().value());
+        std::shared_ptr<Variable> variable = std::dynamic_pointer_cast<Variable>(assignment->left());
+
+        const std::string variableName = variable->name();
+
+        if (st.find(variableName)) {
+            const std::string errorMessage = "Variable '" + variableName + "' already exists";
+            throw std::runtime_error(errorMessage);
+        }
+
+        const std::variant<int, float, bool> variableValue = evaluateExpression(assignment->right());
+        const std::string tokenType = getTokenTypeFromVariant(variableValue);
+        std::shared_ptr<st::Symbol> variableType = st.find(tokenType);
+
+        st.create(std::make_shared<st::VariableSymbol>(variableName, variableValue, variableType));
     }
-
-    const std::variant<int, float, bool> variableValue = variable->token().getFlexNumber();
-    std::shared_ptr<st::Symbol> variableType = st.find(Token::typeToString(variable->token().getType()));
-
-    st.create(std::make_shared<st::VariableSymbol>(variableName, variableValue, variableType));
 }
 
 void stNodeVisitor::operator()(Variable& variable)
@@ -168,6 +239,69 @@ void stNodeVisitor::operator()(ForLoop& node)
 void SymbolTableVisitNode::visit(NodeVariant astNode)
 {
     return std::visit(SymbolTableVisitNode(st), astNode);
+}
+
+std::variant<int, float, bool> stNodeVisitor::evaluateExpression(const std::shared_ptr<AstNode> node)
+{
+    switch (node->nodeType()) {
+    case NodeType::BINARY_OPERATION: {
+        auto binaryOpNode = std::dynamic_pointer_cast<BinaryOperation>(node);
+
+        NodeVariant left = getVariant(binaryOpNode->left());
+        NodeVariant right = getVariant(binaryOpNode->right());
+
+        TokenType tokenType = binaryOpNode->binaryOperator().getType();
+
+        return Interpreter::calculateBinaryResult(st, Interpreter::visitInterpret(left, st), Interpreter::visitInterpret(right, st), tokenType);
+    }
+    case NodeType::UNARY_OPERATOR: {
+        auto unaryOpNode = std::dynamic_pointer_cast<UnaryOp>(node);
+
+        if (unaryOpNode->token().getType() == TokenType::PLUS) {
+            return evaluateExpression(unaryOpNode->expr());
+        } else if (unaryOpNode->token().getType() == TokenType::MINUS) {
+            const std::variant<int, float, bool> variant = evaluateExpression(unaryOpNode->expr());
+            if (std::holds_alternative<int>(variant)) {
+                const int value = std::get<int>(variant);
+                return -value;
+            } else if (std::holds_alternative<float>(variant)) {
+                const float value = std::get<float>(variant);
+                return -value;
+            } else if (std::holds_alternative<bool>(variant)) {
+                throw std::runtime_error("Cannot add '-' sign to bool value");
+            } else {
+                throw std::runtime_error("Variant does not hold integer, float or bool inside, cannot return value of it");
+            }
+        } else {
+            throw std::runtime_error("Token type in UnaryOp is netiher PLUS or MINUS");
+        }
+    }
+    case NodeType::NUMBER: {
+        auto numberNode = std::dynamic_pointer_cast<Number>(node);
+        return numberNode->value();
+    }
+    case NodeType::VARIABLE: {
+        auto variableNode = std::dynamic_pointer_cast<Variable>(node);
+        return variableNode->token().getFlexNumber();
+    }
+    default: {
+        const std::string msg = "Evaluating expression for type '" + std::to_string(static_cast<uint8_t>(node->nodeType())) + "' is not implemented";
+        throw std::runtime_error(msg);
+    }
+    }
+}
+
+std::string stNodeVisitor::getTokenTypeFromVariant(std::variant<int, float, bool> variant)
+{
+    if (std::holds_alternative<int>(variant)) {
+        return "INTEGER";
+    } else if (std::holds_alternative<float>(variant)) {
+        return "FLOATING_NUMBER";
+    } else if (std::holds_alternative<bool>(variant)) {
+        return "BOOL_VALUE";
+    } else {
+        throw std::runtime_error("Unknown variant in getTokenTypeFromVariant");
+    }
 }
 
 std::shared_ptr<AstNode> NodeVisitor::operator()(BinaryOperation& node)
@@ -448,6 +582,8 @@ std::shared_ptr<AstNode> Interpreter::visitInterpret(NodeVariant astNode, st::Sy
 std::shared_ptr<AstNode> Interpreter::buildTree(const std::string& text)
 {
     reset();
+
+    _symbolTable.init();
 
     _parser = Parser(Lexer(text));
 
