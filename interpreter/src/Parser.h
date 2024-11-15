@@ -21,6 +21,8 @@ public:
     {
     }
 
+    void registerBuiltInMethod(const std::string& functionName);
+
     void raiseParsingError(const std::vector<TokenType>& expectedTokenType);
 
     void eat(TokenType tokenType);
@@ -55,6 +57,8 @@ public:
 
     std::shared_ptr<AstNode> functionCall();
 
+    std::shared_ptr<AstNode> builtInFunction();
+
     std::shared_ptr<AstNode> whileStatement();
 
     std::shared_ptr<AstNode> forStatement();
@@ -62,19 +66,6 @@ public:
     Lexer lexer() { return _lexer; }
 
 private:
-    // class ParsingException : public std::exception
-    // {
-    // private:
-    //     const char* message;
-
-    // public:
-    //     ParsingException(const char* msg) :
-    //         message(msg)
-    //     {
-    //     }
-    //     char* what() { return message; }
-    // };
-
     Lexer _lexer;
     Token _currentToken;
 };

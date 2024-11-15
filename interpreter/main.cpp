@@ -50,6 +50,18 @@ int main(int argc, char* argv[])
         }
 
         Interpreter interpreter;
+
+        interpreter.symbolTable().init();
+        interpreter.initParser(input);
+
+        interpreter.registerBuiltInMethod("moveNorth()");
+        interpreter.registerBuiltInMethod("moveSouth()");
+        interpreter.registerBuiltInMethod("moveEast()");
+        interpreter.registerBuiltInMethod("moveWest()");
+        interpreter.registerBuiltInMethod("rotateLeft()");
+        interpreter.registerBuiltInMethod("rotateRight()");
+        interpreter.registerBuiltInMethod("push()");
+
         std::shared_ptr<AstNode> tree = interpreter.buildTree(input);
 
         st::SymbolTable& stRef = interpreter.symbolTable();

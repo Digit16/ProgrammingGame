@@ -16,6 +16,7 @@ class VariableDeclaration;
 class Variable;
 class EmptyNode;
 class FunDeclaration;
+class BuiltInFunction;
 class FunCall;
 class IfStatement;
 class WhileLoop;
@@ -30,6 +31,7 @@ using NodeVariant = std::variant<Number,
                                  Variable,
                                  EmptyNode,
                                  FunDeclaration,
+                                 BuiltInFunction,
                                  FunCall,
                                  IfStatement,
                                  WhileLoop,
@@ -51,7 +53,8 @@ enum class NodeType : uint8_t
     FUN_CALL = 9,
     IF = 10,
     WHILE = 11,
-    FOR = 12
+    FOR = 12,
+    BUILT_IN_FUNCTION = 13
 };
 
 class Token;
@@ -323,6 +326,22 @@ private:
     std::shared_ptr<AstNode> _condition;
     std::shared_ptr<AstNode> _increment;
     std::shared_ptr<AstNode> _body;
+};
+
+class BuiltInFunction : public AstNode
+{
+public:
+    BuiltInFunction(const std::string& name) :
+        _name(name)
+    {
+    }
+
+    NodeType nodeType() const override { return NodeType::BUILT_IN_FUNCTION; }
+
+    const std::string& name() const { return _name; }
+
+private:
+    std::string _name;
 };
 
 NodeVariant getVariant(const std::shared_ptr<AstNode>& node);

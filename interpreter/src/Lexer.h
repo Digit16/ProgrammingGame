@@ -3,6 +3,7 @@
 #include "Token.h"
 
 #include <map>
+#include <set>
 
 class Lexer
 {
@@ -28,6 +29,8 @@ public:
     {
     }
 
+    void registerBuiltInMethod(const std::string& functionName);
+
     void raiseInvalidCharacterError() const { throw std::runtime_error("Invalid character"); }
 
     void advance();
@@ -48,10 +51,14 @@ public:
     int16_t getParsingLine() { return _parsingLine; }
     int16_t getParsingPosition() { return _parsingPosition; }
 
+    std::map<std::string, Token> getReservedKeywords();
+
 private:
     std::string _text;
     int _pos;
     char _currentChar;
+
+    std::set<std::string> _builtInMethods;
 
     int16_t _parsingLine;
     int16_t _parsingPosition;

@@ -2,6 +2,16 @@
 
 #include <iostream>
 
+void Lexer::registerBuiltInMethod(const std::string& functionName)
+{
+    auto [it, res] = _builtInMethods.insert(functionName);
+    if (res) {
+        std::cout << "success" << std::endl;
+    } else {
+        std::cout << "lypton" << std::endl;
+    }
+}
+
 void Lexer::advance()
 {
     ++_pos;
@@ -150,9 +160,15 @@ char Lexer::peekNextChar()
     return this->_text[this->_pos + 1];
 }
 
-Token Lexer::id()
+std::map<std::string, Token> Lexer::getReservedKeywords()
 {
-    std::string result;
+    if (_builtInMethods.empty()) {
+        std::cout << "chuj bombki szczelyl" << std::endl;
+    }
+    for (const auto& fun : _builtInMethods) {
+        std::cout << fun << std::endl;
+    }
+
     std::map<std::string, Token> RESERVED_KEYWORDS{
         {"START", Token("START", TokenType::START)               },
         {"END",   Token("END",   TokenType::END)                 },
@@ -164,9 +180,21 @@ Token Lexer::id()
         {"while", Token("while", TokenType::WHILE)               }
     };
 
-    while (this->_currentChar != '\0' && isalnum(this->_currentChar)) {
-        result += this->_currentChar;
-        this->advance();
+    for (const auto& fun : _builtInMethods) {
+        RESERVED_KEYWORDS[fun] = Token(fun, TokenType::BUILT_IN_FUNCTION);
+    }
+
+    return RESERVED_KEYWORDS;
+}
+
+Token Lexer::id()
+{
+    std::string result;
+    std::map<std::string, Token> RESERVED_KEYWORDS = getReservedKeywords();
+
+    while (_currentChar != '\0' && (isalnum(_currentChar) || _currentChar == '(' || _currentChar == ')')) {
+        result += _currentChar;
+        advance();
     }
 
     if (RESERVED_KEYWORDS.count(result)) {

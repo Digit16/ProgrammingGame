@@ -2,6 +2,11 @@
 
 #include <iostream>
 
+void Parser::registerBuiltInMethod(const std::string& functionName)
+{
+    _lexer.registerBuiltInMethod(functionName);
+}
+
 void Parser::raiseParsingError(const std::vector<TokenType>& expectedTokenType)
 {
     if (expectedTokenType.empty()) {
@@ -76,9 +81,11 @@ std::shared_ptr<AstNode> Parser::factor()
     } else {
         raiseParsingError({TokenType::PLUS, TokenType::MINUS, TokenType::INTEGER, TokenType::FLOATING_NUMBER, TokenType::LPAREN, TokenType::ID});
     }
+
+    return std::make_shared<EmptyNode>();
 }
 /*
-    term : factor ((MUL | DIV) factor)*
+term : factor ((MUL | DIV) factor)*
 */
 std::shared_ptr<AstNode> Parser::term()
 {
@@ -164,6 +171,7 @@ statement : section
           | ifStatement
           | variableDeclaration
           | functionDeclaration
+          | builtInFunction
           | functionCall
           | whileLoop
           | forLoop
@@ -189,6 +197,8 @@ std::shared_ptr<AstNode> Parser::statement()
         }
     } else if (_currentToken.getType() == TokenType::FUN_DECLARATION) {
         return functionDeclaration();
+    } else if (_currentToken.getType() == TokenType::BUILT_IN_FUNCTION) {
+        return builtInFunction();
     } else {
         return empty();
     }
@@ -272,7 +282,7 @@ std::shared_ptr<AstNode> Parser::ifStatement()
     auto condition = expr();
     eat(TokenType::COLON);
     auto thenBranch = section();
-    std::shared_ptr<AstNode> elseBranch = nullptr;
+    std::shared_ptr<AstNode> elseBranch = std::make_shared<EmptyNode>();
 
     if (_currentToken.getType() == TokenType::ELSE) {
         eat(TokenType::ELSE);
@@ -327,6 +337,17 @@ std::shared_ptr<AstNode> Parser::whileStatement()
     auto body = section();
 
     return std::make_shared<WhileLoop>(condition, body);
+}
+
+/*
+builtInFunction : builtInFunction
+*/
+std::shared_ptr<AstNode> Parser::builtInFunction()
+{
+    auto ct = _currentToken;
+    eat(TokenType::BUILT_IN_FUNCTION);
+
+    return std::make_shared<BuiltInFunction>(ct.getStringValue());
 }
 
 /*
