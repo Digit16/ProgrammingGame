@@ -25,13 +25,13 @@ func _ready():
 	targetPos = self.position
 	var root_node = get_tree().root
 	print(root_node.name)
-	var file = FileAccess.open("res://commands.txt", FileAccess.READ)
-	if file:
-		while !file.eof_reached():
-			var line = file.get_line()
-			commands.append(line)
-			print(line)
-	file.close()
+	#var file = FileAccess.open("res://commands.txt", FileAccess.READ)
+	#if file:
+		#while !file.eof_reached():
+			#var line = file.get_line()
+			#commands.append(line)
+			#print(line)
+	#file.close()
 	
 	interaction_manager.connect("can_push_result", Callable(self, "_on_can_push_result"))
 
@@ -68,7 +68,7 @@ func _process(_delta):
 					_on_get_boxes_on_platfor_count()
 			animation_tree.set("parameters/Walk/blend_position", facing)
 		else:
-			state_machine.travel("End") # Idle state if no commands are left
+			pass#state_machine.travel("End") # Idle state if no commands are left
 	else:
 		self.position = self.position.lerp(targetPos, 4 * _delta)
 		var collision = move_and_slide()

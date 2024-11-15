@@ -1,13 +1,13 @@
 [gd_scene load_steps=14 format=3 uid="uid://dgm4e3dj1l320"]
 
-[ext_resource type="Texture2D" uid="uid://os7624ctmhq3" path="res://art/robot_atlas.png" id="1_qi4vs"]
+[ext_resource type="Texture2D" uid="uid://buebn1dqinyin" path="res://art/tiles/robot_atlas.png" id="1_qi4vs"]
 [ext_resource type="Texture2D" uid="uid://dwsmec5b5rj0y" path="res://art/tiles/water.png" id="2_1g22o"]
 [ext_resource type="Texture2D" uid="uid://dqryivwwhqd0x" path="res://art/tiles/walls.png" id="3_3h02h"]
 [ext_resource type="Script" path="res://TileMap.gd" id="3_lxvoo"]
-[ext_resource type="PackedScene" uid="uid://vb8lfikq5dc7" path="res://box.tscn" id="6_crsa5"]
+[ext_resource type="PackedScene" path="res://box.tscn" id="6_crsa5"]
 [ext_resource type="PackedScene" uid="uid://cchfvbtuste6s" path="res://characters/player_robot.tscn" id="6_hjdgv"]
-[ext_resource type="PackedScene" uid="uid://deb7q6h0om8hc" path="res://End.tscn" id="7_xxre3"]
-[ext_resource type="PackedScene" uid="uid://5q5c8pt7mew2" path="res://GameManager.tscn" id="8_nfk0q"]
+[ext_resource type="PackedScene" path="res://End.tscn" id="7_xxre3"]
+[ext_resource type="PackedScene" path="res://GameManager.tscn" id="8_nfk0q"]
 [ext_resource type="PackedScene" uid="uid://c7m1f03wf08sa" path="res://interaction/InteractionManager.tscn" id="9_h8w3f"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ydj6"]
@@ -333,6 +333,7 @@ sources/2 = SubResource("TileSetAtlasSource_y6uth")
 sources/5 = SubResource("TileSetAtlasSource_p6k03")
 
 [node name="level_0" type="Node2D"]
+scale = Vector2(3, 3)
 
 [node name="TileMap" type="TileMap" parent="." groups=["walls"]]
 tile_set = SubResource("TileSet_leduy")
@@ -344,11 +345,6 @@ layer_1/tile_data = PackedInt32Array(262146, 5, 1, 393218, 5, 1, 327682, 5, 1, 1
 layer_2/name = "Water"
 layer_2/tile_data = PackedInt32Array(262153, 2, 0, 196617, 2, 0, 131081, 2, 0, 65545, 2, 0, 9, 2, 0, 8, 2, 0, 7, 2, 0, 6, 2, 0, 5, 2, 0, 4, 2, 0, 3, 2, 0, 2, 2, 0, 1, 2, 0, 0, 2, 0, 65536, 2, 0, 131072, 2, 0, 196608, 2, 0, 262144, 2, 0, 327680, 2, 0, 393216, 2, 0, 458752, 2, 0, 524288, 2, 0, 589824, 2, 0, 589825, 2, 0, 589826, 2, 0, 589827, 2, 0, 589828, 2, 0, 589829, 2, 0, 589830, 2, 0, 589831, 2, 0, 589832, 2, 0, 589833, 2, 0, 524297, 2, 0, 458761, 2, 0, 393225, 2, 0, 327689, 2, 0)
 script = ExtResource("3_lxvoo")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(143, 80)
-rotation = 1.39626
-zoom = Vector2(4, 4)
 
 [node name="PlayerRobot" parent="." instance=ExtResource("6_hjdgv")]
 z_index = 2
@@ -373,6 +369,7 @@ z_index = 0
 position = Vector2(120, 135)
 
 [node name="GameManager" parent="." groups=["game_manager"] instance=ExtResource("8_nfk0q")]
+unique_name_in_owner = true
 
 [node name="InteractionManager" parent="." groups=["interaction_manager"] instance=ExtResource("9_h8w3f")]
 position = Vector2(60, 63)
