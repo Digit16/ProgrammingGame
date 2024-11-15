@@ -68,6 +68,8 @@ std::string Token::typeToString(TokenType type)
         return "VARIABLE_DECLARATION";
     case TokenType::FUN_DECLARATION:
         return "FUN_DECLARATION";
+    case TokenType::BUILT_IN_FUNCTION:
+        return "BUILT_IN_FUNCTION";
     }
 
     throw std::runtime_error("TokenType not implemented, string conversion is not possible");

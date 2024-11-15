@@ -39,7 +39,8 @@ enum class TokenType : uint8_t
     LESS_EQUAL = 31,
     NEWLINE = 32,
     VARIABLE_DECLARATION = 33,
-    FUN_DECLARATION = 34
+    FUN_DECLARATION = 34,
+    BUILT_IN_FUNCTION = 35
 };
 
 class Token
@@ -48,6 +49,12 @@ public:
     static constexpr std::array<TokenType, 4> arithmeticTokenTypes{TokenType::PLUS, TokenType::MINUS, TokenType::MULTIPLICATION, TokenType::DIVISION};
     static constexpr std::array<TokenType, 6> comparisonTokenTypes{
         TokenType::COMPARISON, TokenType::NOT_EQUAL, TokenType::GREATER, TokenType::LESS, TokenType::GREATER_EQUAL, TokenType::LESS_EQUAL};
+
+    Token() :
+        _value(std::nullptr_t()),
+        _type(TokenType::NONE)
+    {
+    }
 
     Token(std::variant<int, float, char, std::nullptr_t, std::string, bool> value, TokenType type) :
         _value(value),

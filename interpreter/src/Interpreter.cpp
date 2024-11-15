@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-// using NodeVisitor = InterpreterNodeVisitor::VisitNode;
 using NodeVisitor = Interpreter::VisitNode;
 using stNodeVisitor = SymbolTableVisitNode;
 
@@ -46,8 +45,29 @@ void st::SymbolTable::init()
     create(std::make_shared<BuiltInTypeSymbol>("BOOL_VALUE", SymbolVariableType::BOOL_VALUE));
 }
 
+void st::SymbolTable::registerBuiltInMethod(const std::string& functionName)
+{
+    create(std::make_shared<BuiltInFunctionSymbol>(functionName));
+}
+
+void st::SymbolTable::addToSequence(const std::string& functionName)
+{
+    _sequence.push_back(functionName);
+}
+
+std::vector<std::string> st::SymbolTable::sequence()
+{
+    return _sequence;
+}
+
 void st::SymbolTable::debugPrint()
 {
+    std::cout << "Sequence:" << std::endl;
+    for (size_t i = 0; i < _sequence.size(); ++i) {
+        std::cout << i << ": " << _sequence[i] << std::endl;
+    }
+    std::cout << "End of sequence" << std::endl;
+
     for (const auto& [symbolName, symbolPtr] : _symbols) {
         if (!symbolPtr)
             continue;
@@ -196,6 +216,16 @@ void stNodeVisitor::operator()(FunDeclaration& node)
     }
 
     st.create(std::make_shared<st::FunctionSymbol>(functionName, node.body()));
+}
+
+void stNodeVisitor::operator()(BuiltInFunction& node)
+{
+    const std::string functionName = node.name();
+
+    if (!st.find(functionName)) {
+        const std::string errorMessage = "Function '" + functionName + "' does not exists";
+        throw std::runtime_error(errorMessage);
+    }
 }
 
 void stNodeVisitor::operator()(FunCall& node)
@@ -422,8 +452,6 @@ std::shared_ptr<AstNode> NodeVisitor::operator()(Assign& node)
         throw std::runtime_error("Casting to variableSymbolType in VisitAssign failed!");
     }
 
-    std::cout << "right() node type in visit Assign: " << static_cast<uint8_t>(node.right()->nodeType()) << std::endl;
-
     std::string valueTypeName;
     auto flexValue = value->value();
 
@@ -444,7 +472,7 @@ std::shared_ptr<AstNode> NodeVisitor::operator()(Assign& node)
     return std::make_shared<EmptyNode>();
 }
 
-std::shared_ptr<AstNode> NodeVisitor::operator()(VariableDeclaration& /*node*/)
+std::shared_ptr<AstNode> NodeVisitor::operator()(VariableDeclaration&)
 {
     return std::make_shared<EmptyNode>();
 }
@@ -496,15 +524,14 @@ std::shared_ptr<AstNode> NodeVisitor::operator()(IfStatement& node)
     }
 }
 
-std::shared_ptr<AstNode> NodeVisitor::operator()(FunDeclaration& /*node*/)
+std::shared_ptr<AstNode> NodeVisitor::operator()(FunDeclaration&)
 {
-    // const std::string& functionName = node.name();
-    // auto symbol = symbolTable().findWithType(functionName, st::SymbolType::FUNCTION_SYMBOL);
-    // auto functionSymbol = std::dynamic_pointer_cast<st::FunctionSymbol>(symbol);
+    return std::make_shared<EmptyNode>();
+}
 
-    // std::variant<int, float, bool>& value = functionSymbol->getValue();
-
-    // GLOBAL_FUNCTIONS[node.name()] = node.body();
+std::shared_ptr<AstNode> NodeVisitor::operator()(BuiltInFunction& node)
+{
+    symbolTable().addToSequence(node.name());
 
     return std::make_shared<EmptyNode>();
 }
@@ -559,7 +586,8 @@ std::shared_ptr<AstNode> NodeVisitor::operator()(ForLoop& node)
         }
 
         bool conditionIsTrue = (std::holds_alternative<int>(conditionValue->value()) && std::get<int>(conditionValue->value()) != 0)
-                               || (std::holds_alternative<float>(conditionValue->value()) && std::get<float>(conditionValue->value()) != 0.0f);
+                               || (std::holds_alternative<float>(conditionValue->value()) && std::get<float>(conditionValue->value()) != 0.0f)
+                               || (std::holds_alternative<bool>(conditionValue->value()) && std::get<bool>(conditionValue->value()) == true);
 
         if (!conditionIsTrue) {
             break;
@@ -579,14 +607,19 @@ std::shared_ptr<AstNode> Interpreter::visitInterpret(NodeVariant astNode, st::Sy
     return std::visit(VisitNode(st), astNode);
 }
 
+void Interpreter::registerBuiltInMethod(const std::string& functionName)
+{
+    symbolTable().registerBuiltInMethod(functionName);
+    _parser.registerBuiltInMethod(functionName);
+}
+
+std::vector<std::string> Interpreter::getSequence()
+{
+    return symbolTable().sequence();
+}
+
 std::shared_ptr<AstNode> Interpreter::buildTree(const std::string& text)
 {
-    reset();
-
-    _symbolTable.init();
-
-    _parser = Parser(Lexer(text));
-
     return _parser.parse();
 }
 
@@ -595,15 +628,25 @@ std::shared_ptr<AstNode> Interpreter::interpret(std::shared_ptr<AstNode> tree)
     return Interpreter::visitInterpret(getVariant(tree), symbolTable());
 }
 
+void Interpreter::initParser(const std::string& input)
+{
+    _parser = Parser(Lexer(input));
+}
+
 void Interpreter::reset()
 {
-    GLOBAL_SCOPE.clear();
-    GLOBAL_FUNCTIONS.clear();
-
     _executionLine = -1;
     _executionPosition = -1;
 
     _parser = Parser();
+}
+
+std::variant<int, float, bool> Interpreter::getVariableVariant(const std::string& variableName)
+{
+    auto variable = this->symbolTable().findWithType(variableName, st::SymbolType::VARIABLE_SYMBOL); // TODO: Handle exception
+    auto variableSymbol = std::dynamic_pointer_cast<st::VariableSymbol>(variable);
+
+    return variableSymbol->getValue();
 }
 
 // static

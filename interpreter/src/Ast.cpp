@@ -107,6 +107,14 @@ NodeVariant getVariant(const std::shared_ptr<AstNode>& node)
 
         return NodeVariant(ForLoop(*forAst));
     }
+    case NodeType::BUILT_IN_FUNCTION: {
+        auto builtInFunction = std::dynamic_pointer_cast<BuiltInFunction>(node);
+        if (!builtInFunction) {
+            throw std::runtime_error("Casting to BuiltInFunction failed");
+        }
+
+        return NodeVariant(BuiltInFunction(*builtInFunction));
+    }
     }
 
     throw std::runtime_error("Unknown NodeType");
@@ -141,6 +149,8 @@ std::string getTypeString(NodeType nt)
         return "WHILE";
     case NodeType::FOR:
         return "FOR";
+    case NodeType::BUILT_IN_FUNCTION:
+        return "BUILT_IN_FUNCTION";
     }
 
     throw std::runtime_error("Unknown NodeType");
