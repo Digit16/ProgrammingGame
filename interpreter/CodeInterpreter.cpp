@@ -11,7 +11,7 @@ void CodeInterpreter::_bind_methods()
     ClassDB::bind_method(D_METHOD("getSequence"), &CodeInterpreter::getSequence);
 }
 
-void CodeInterpreter::registerBuiltInMethod(const String& str);
+void CodeInterpreter::registerBuiltInMethod(const String& str)
 {
     const std::string text{str.utf8().get_data()};
 
@@ -24,7 +24,7 @@ String CodeInterpreter::interpret(const String& str)
         const std::string text{str.utf8().get_data()};
 
         interpreter.symbolTable().init();
-        interpreter.initParser(input);
+        interpreter.initParser(text);
 
         interpreter.registerBuiltInMethod("moveNorth()");
         interpreter.registerBuiltInMethod("moveSouth()");
