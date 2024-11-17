@@ -4,10 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://dwsmec5b5rj0y" path="res://art/tiles/water.png" id="2_1g22o"]
 [ext_resource type="Texture2D" uid="uid://dqryivwwhqd0x" path="res://art/tiles/walls.png" id="3_3h02h"]
 [ext_resource type="Script" path="res://TileMap.gd" id="3_lxvoo"]
-[ext_resource type="PackedScene" path="res://box.tscn" id="6_crsa5"]
+[ext_resource type="PackedScene" uid="uid://vb8lfikq5dc7" path="res://box.tscn" id="6_crsa5"]
 [ext_resource type="PackedScene" uid="uid://cchfvbtuste6s" path="res://characters/player_robot.tscn" id="6_hjdgv"]
-[ext_resource type="PackedScene" path="res://End.tscn" id="7_xxre3"]
-[ext_resource type="PackedScene" path="res://GameManager.tscn" id="8_nfk0q"]
+[ext_resource type="PackedScene" uid="uid://deb7q6h0om8hc" path="res://End.tscn" id="7_xxre3"]
+[ext_resource type="PackedScene" uid="uid://5q5c8pt7mew2" path="res://GameManager.tscn" id="8_nfk0q"]
 [ext_resource type="PackedScene" uid="uid://c7m1f03wf08sa" path="res://interaction/InteractionManager.tscn" id="9_h8w3f"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0ydj6"]
@@ -355,18 +355,9 @@ position = Vector2(56, 72)
 collision_layer = 15
 collision_mask = 15
 
-[node name="Box2" parent="." instance=ExtResource("6_crsa5")]
-position = Vector2(104, 103)
-collision_layer = 15
-collision_mask = 15
-
 [node name="EndZone" parent="." groups=["platforms"] instance=ExtResource("7_xxre3")]
 z_index = 0
 position = Vector2(56, 104)
-
-[node name="EndZone2" parent="." groups=["platforms"] instance=ExtResource("7_xxre3")]
-z_index = 0
-position = Vector2(120, 135)
 
 [node name="GameManager" parent="." groups=["game_manager"] instance=ExtResource("8_nfk0q")]
 unique_name_in_owner = true
