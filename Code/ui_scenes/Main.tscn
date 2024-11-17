@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://cj2sexcpt1q4q"]
+
+[ext_resource type="PackedScene" uid="uid://dgm4e3dj1l320" path="res://levels/level_0.tscn" id="1_4kjc0"]
+[ext_resource type="PackedScene" uid="uid://3tvr6ayegv2x" path="res://ui_scenes/DragableCodeEditor.tscn" id="2_muupc"]
+[ext_resource type="Theme" uid="uid://b5uuv0ae6k3gt" path="res://default.tres" id="3_piwo1"]
+[ext_resource type="Texture2D" uid="uid://cgje3lmsmwll0" path="res://ui_assets/ui_buttons_settings.tres" id="4_b1mge"]
+[ext_resource type="Script" path="res://ui_scripts/SettingsOverlayButton.gd" id="5_a14h4"]
+[ext_resource type="PackedScene" uid="uid://by03ax1tx0l0j" path="res://ui_scenes/CRTFilter.tscn" id="6_8clgr"]
+
+[node name="Root" type="Node"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -2
+
+[node name="Windows" type="Node" parent="CanvasLayer"]
+
+[node name="Control" parent="CanvasLayer/Windows" instance=ExtResource("2_muupc")]
+position = Vector2(280, 178)
+
+[node name="Levels" type="CenterContainer" parent="CanvasLayer" groups=["levels"]]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="level_0" parent="CanvasLayer/Levels" instance=ExtResource("1_4kjc0")]
+position = Vector2(-122, -234)
+
+[node name="ControlUI" type="Control" parent="."]
+z_as_relative = false
+y_sort_enabled = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SettingsOverlayButton" type="Button" parent="ControlUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -88.0
+offset_top = 32.0
+offset_right = -32.0
+offset_bottom = 88.0
+grow_horizontal = 0
+theme = ExtResource("3_piwo1")
+icon = ExtResource("4_b1mge")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("5_a14h4")
+
+[node name="crt_filter" parent="." instance=ExtResource("6_8clgr")]
+layer = -1
+
+[editable path="CanvasLayer/Windows/Control"]
+[editable path="CanvasLayer/Levels/level_0"]

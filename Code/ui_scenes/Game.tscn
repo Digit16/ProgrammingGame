@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c880k2ej0wqfh"]
+
+[ext_resource type="PackedScene" uid="uid://dgm4e3dj1l320" path="res://levels/level_0.tscn" id="1_fy4r7"]
+
+[node name="Game" type="Node2D"]
+scale = Vector2(2, 2)
+
+[node name="Level" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="level_0" parent="Level" instance=ExtResource("1_fy4r7")]
+position = Vector2(20, -80)

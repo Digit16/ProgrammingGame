@@ -1,0 +1,207 @@
+[1mdiff --git a/Code/characters/player_robot.gd b/Code/characters/player_robot.gd[m
+[1mindex 8c422a2..f0349db 100644[m
+[1m--- a/Code/characters/player_robot.gd[m
+[1m+++ b/Code/characters/player_robot.gd[m
+[36m@@ -9,6 +9,9 @@[m [mvar waiting = true[m
+ var abort = false[m
+ var commands = [][m
+ [m
+[32m+[m[32m@onready var animation_tree = $AnimationTree[m
+[32m+[m[32m@onready var state_machine = animation_tree.get("parameters/playback")[m
+[32m+[m
+ func _ready():[m
+ 	targetPos = self.position[m
+ 	var file = FileAccess.open("res://commands.txt", FileAccess.READ)[m
+[36m@@ -36,6 +39,7 @@[m [mfunc _process(_delta):[m
+ 			_on_node_left()[m
+ 		if c == 'r':[m
+ 			_on_node_right()[m
+[32m+[m		[32manimation_tree.set("parameters/Walk/blend_position", facing)[m
+ 	else:[m
+ 		self.position = self.position.lerp(targetPos, 4 * _delta)[m
+ 		var collision = move_and_slide()[m
+[36m@@ -43,15 +47,15 @@[m [mfunc _process(_delta):[m
+ 			print("collision")[m
+ 			position = prevPos[m
+ 			targetPos = prevPos[m
+[31m-			$Character/AnimationPlayer.stop()[m
+[32m+[m			[32mstate_machine.travel("hit_down")[m
+ 			abort = true[m
+ 		else:[m
+ 			if self.position.distance_to(targetPos) < 1.0: [m
+[31m-				$Character/AnimationPlayer.stop()[m
+[32m+[m				[32mif commands.is_empty():[m
+[32m+[m					[32mstate_machine.travel("hit_down")[m
+ 				waiting = true[m
+ [m
+ func _on_node_down():[m
+[31m-	$Character/AnimationPlayer.play("walk_down")[m
+ 	facing = Vector2.ZERO[m
+ 	facing.y = 1[m
+ 	prevPos = targetPos[m
+[36m@@ -59,7 +63,6 @@[m [mfunc _on_node_down():[m
+ [m
+ [m
+ func _on_node_left():[m
+[31m-	$Character/AnimationPlayer.play("walk_left")[m
+ 	facing = Vector2.ZERO[m
+ 	facing.x = -1[m
+ 	prevPos = targetPos[m
+[36m@@ -67,7 +70,7 @@[m [mfunc _on_node_left():[m
+ [m
+ [m
+ func _on_node_right():[m
+[31m-	$Character/AnimationPlayer.play("walk_right")[m
+[32m+[m	[32m#$Character/AnimationPlayer.play("walk_right")[m
+ 	facing = Vector2.ZERO[m
+ 	facing.x = 1[m
+ 	prevPos = targetPos[m
+[36m@@ -75,7 +78,7 @@[m [mfunc _on_node_right():[m
+ [m
+ [m
+ func _on_node_up():[m
+[31m-	$Character/AnimationPlayer.play("walk_up")[m
+[32m+[m	[32m#$Character/AnimationPlayer.play("walk_up")[m
+ 	facing = Vector2.ZERO[m
+ 	facing.y = -1[m
+ 	prevPos = targetPos[m
+[1mdiff --git a/Code/characters/player_robot.tscn b/Code/characters/player_robot.tscn[m
+[1mindex d8cc8b4..bc1ad3b 100644[m
+[1m--- a/Code/characters/player_robot.tscn[m
+[1m+++ b/Code/characters/player_robot.tscn[m
+[36m@@ -1,8 +1,11 @@[m
+[31m-[gd_scene load_steps=11 format=3 uid="uid://cchfvbtuste6s"][m
+[32m+[m[32m[gd_scene load_steps=20 format=3 uid="uid://cchfvbtuste6s"][m
+ [m
+ [ext_resource type="Script" path="res://characters/player_robot.gd" id="1_yhcxv"][m
+ [ext_resource type="Texture2D" uid="uid://baficnup6ijqj" path="res://art/guard_white_spritesheet.png" id="2_kmme5"][m
+ [m
+[32m+[m[32m[sub_resource type="RectangleShape2D" id="RectangleShape2D_wlo6i"][m
+[32m+[m[32msize = Vector2(14, 14)[m
+[32m+[m
+ [sub_resource type="Animation" id="Animation_jkw8f"][m
+ length = 0.001[m
+ [m
+[36m@@ -101,8 +104,43 @@[m [m_data = {[m
+ "walk_up": SubResource("Animation_xaqv3")[m
+ }[m
+ [m
+[31m-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wlo6i"][m
+[31m-size = Vector2(14, 14)[m
+[32m+[m[32m[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e1ti2"][m
+[32m+[m[32manimation = &"walk_down"[m
+[32m+[m
+[32m+[m[32m[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_is7re"][m
+[32m+[m[32manimation = &"walk_right"[m
+[32m+[m
+[32m+[m[32m[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b4g06"][m
+[32m+[m[32manimation = &"walk_up"[m
+[32m+[m
+[32m+[m[32m[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c383h"][m
+[32m+[m[32manimation = &"walk_left"[m
+[32m+[m
+[32m+[m[32m[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_4nxwq"][m
+[32m+[m[32mblend_point_0/node = SubResource("AnimationNodeAnimation_e1ti2")[m
+[32m+[m[32mblend_point_0/pos = Vector2(-0.00384618, 0.999739)[m
+[32m+[m[32mblend_point_1/node = SubResource("AnimationNodeAnimation_is7re")[m
+[32m+[m[32mblend_point_1/pos = Vector2(0.992308, 0.00939596)[m
+[32m+[m[32mblend_point_2/node = SubResource("AnimationNodeAnimation_b4g06")[m
+[32m+[m[32mblend_point_2/pos = Vector2(-0.00192309, -0.999218)[m
+[32m+[m[32mblend_point_3/node = SubResource("AnimationNodeAnimation_c383h")[m
+[32m+[m[32mblend_point_3/pos = Vector2(-0.990385, 0.00893998)[m
+[32m+[m[32mblend_mode = 1[m
+[32m+[m
+[32m+[m[32m[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aslvr"][m
+[32m+[m[32manimation = &"hit_down"[m
+[32m+[m
+[32m+[m[32m[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ojakp"][m
+[32m+[m[32madvance_mode = 2[m
+[32m+[m
+[32m+[m[32m[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_uuo4r"][m
+[32m+[m
+[32m+[m[32m[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_0odwy"][m
+[32m+[m[32mstates/Walk/node = SubResource("AnimationNodeBlendSpace2D_4nxwq")[m
+[32m+[m[32mstates/Walk/position = Vector2(387, 100)[m
+[32m+[m[32mstates/hit_down/node = SubResource("AnimationNodeAnimation_aslvr")[m
+[32m+[m[32mstates/hit_down/position = Vector2(541, 99)[m
+[32m+[m[32mtransitions = ["Start", "Walk", SubResource("AnimationNodeStateMachineTransition_ojakp"), "Walk", "hit_down", SubResource("AnimationNodeStateMachineTransition_uuo4r")][m
+ [m
+ [node name="PLayerRobot" type="CharacterBody2D"][m
+ position = Vector2(72, 72)[m
+[36m@@ -113,11 +151,22 @@[m [mtexture_filter = 1[m
+ texture = ExtResource("2_kmme5")[m
+ hframes = 4[m
+ vframes = 7[m
+[32m+[m[32mframe = 18[m
+[32m+[m
+[32m+[m[32m[node name="CollisionShape2D" type="CollisionShape2D" parent="."][m
+[32m+[m[32mshape = SubResource("RectangleShape2D_wlo6i")[m
+ [m
+[31m-[node name="AnimationPlayer" type="AnimationPlayer" parent="Character"][m
+[32m+[m[32m[node name="AnimationPlayer" type="AnimationPlayer" parent="."][m
+[32m+[m[32mroot_node = NodePath("../Character")[m
+ libraries = {[m
+ "": SubResource("AnimationLibrary_el0e8")[m
+ }[m
+ [m
+[31m-[node name="CollisionShape2D" type="CollisionShape2D" parent="."][m
+[31m-shape = SubResource("RectangleShape2D_wlo6i")[m
+[32m+[m[32m[node name="AnimationTree" type="AnimationTree" parent="."][m
+[32m+[m[32mroot_node = NodePath("../Character")[m
+[32m+[m[32mlibraries = {[m
+[32m+[m[32m"": SubResource("AnimationLibrary_el0e8")[m
+[32m+[m[32m}[m
+[32m+[m[32mtree_root = SubResource("AnimationNodeStateMachine_0odwy")[m
+[32m+[m[32manim_player = NodePath("../AnimationPlayer")[m
+[32m+[m[32mparameters/Walk/blend_position = Vector2(-0.00384617, -0.982379)[m
+[1mdiff --git a/Code/commands.txt b/Code/commands.txt[m
+[1mindex 5fd3bde..a7ad485 100644[m
+[1m--- a/Code/commands.txt[m
+[1m+++ b/Code/commands.txt[m
+[36m@@ -1,3 +1,4 @@[m
+[31m-r[m
+[31m-r[m
+[32m+[m[32mu[m
+[32m+[m[32ml[m
+[32m+[m[32md[m
+ r[m
+[1mdiff --git a/Code/controls.tscn b/Code/controls.tscn[m
+[1mindex 178040d..f7e07ae 100644[m
+[1m--- a/Code/controls.tscn[m
+[1m+++ b/Code/controls.tscn[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-[gd_scene format=3 uid="uid://buh0ugmmn3l7b"][m
+[32m+[m[32m[gd_scene format=3 uid="uid://b4oxoxixvqoqv"][m
+ [m
+ [node name="CanvasLayer" type="Control"][m
+ layout_mode = 3[m
+[1mdiff --git a/Code/levels/level_0.tscn b/Code/levels/level_0.tscn[m
+[1mindex 8e2557b..18b2453 100644[m
+[1m--- a/Code/levels/level_0.tscn[m
+[1m+++ b/Code/levels/level_0.tscn[m
+[36m@@ -1,10 +1,9 @@[m
+[31m-[gd_scene load_steps=12 format=3 uid="uid://dgm4e3dj1l320"][m
+[32m+[m[32m[gd_scene load_steps=11 format=3 uid="uid://dgm4e3dj1l320"][m
+ [m
+ [ext_resource type="Texture2D" uid="uid://gjijdcmfbxj8" path="res://tile_1.tres" id="1_t7suy"][m
+ [ext_resource type="Texture2D" uid="uid://f10p5ta4s45s" path="res://tile_2.tres" id="2_5vetc"][m
+ [ext_resource type="Script" path="res://TileMap.gd" id="3_lxvoo"][m
+ [ext_resource type="Texture2D" uid="uid://2irxnruutj1k" path="res://wall.tres" id="4_jqhi7"][m
+[31m-[ext_resource type="PackedScene" uid="uid://buh0ugmmn3l7b" path="res://controls.tscn" id="5_7c6gc"][m
+ [ext_resource type="PackedScene" uid="uid://cchfvbtuste6s" path="res://characters/player_robot.tscn" id="6_hjdgv"][m
+ [m
+ [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tmxr5"][m
+[36m@@ -44,10 +43,9 @@[m [mformat = 2[m
+ layer_0/tile_data = PackedInt32Array(393225, 0, 0, 327689, 0, 0, 262153, 0, 0, 196617, 0, 0, 131081, 0, 0, 65545, 0, 0, 9, 0, 0, 8, 0, 0, 7, 0, 0, 6, 0, 0, 5, 0, 0, 4, 0, 0, 3, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 0, 65536, 0, 0, 131072, 0, 0, 196608, 0, 0, 262144, 0, 0, 327680, 0, 0, 393216, 0, 0, 458752, 0, 0, 524288, 0, 0, 589824, 0, 0, 589825, 0, 0, 589826, 0, 0, 589827, 0, 0, 589828, 0, 0, 589829, 0, 0, 589830, 0, 0, 589831, 0, 0, 589832, 0, 0, 589833, 0, 0, 524297, 0, 0, 458761, 0, 0)[m
+ [m
+ [node name="Camera2D" type="Camera2D" parent="."][m
+[31m-position = Vector2(173, 73)[m
+[31m-zoom = Vector2(3, 3)[m
+[31m-[m
+[31m-[node name="CanvasLayer" parent="." instance=ExtResource("5_7c6gc")][m
+[32m+[m[32mposition = Vector2(143, 80)[m
+[32m+[m[32mrotation = 1.39626[m
+[32m+[m[32mzoom = Vector2(4, 4)[m
+ [m
+ [node name="PlayerRobot" parent="." instance=ExtResource("6_hjdgv")][m
+ position = Vector2(120, 72)[m

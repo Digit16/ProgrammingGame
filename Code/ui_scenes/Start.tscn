@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://oe48o5sqeyw8"]
+
+[ext_resource type="Script" path="res://ui_scripts/SwitchSceneButton.gd" id="1_40fdt"]
+[ext_resource type="Script" path="res://ui_scripts/ExitButton.gd" id="1_uoj4d"]
+[ext_resource type="PackedScene" uid="uid://cj2sexcpt1q4q" path="res://ui_scenes/Main.tscn" id="2_fjssi"]
+[ext_resource type="Script" path="res://ui_scripts/SpawnSceneButton.gd" id="3_oj1xh"]
+[ext_resource type="PackedScene" uid="uid://cwffcpk8rde5d" path="res://ui_scenes/Credits.tscn" id="4_gki63"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 220.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Start"
+script = ExtResource("1_40fdt")
+new_scene = ExtResource("2_fjssi")
+
+[node name="ContinueButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+disabled = true
+text = "Continue"
+
+[node name="CreditsButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Credits"
+script = ExtResource("3_oj1xh")
+scene_to_spawn = ExtResource("4_gki63")
+
+[node name="ExitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Exit"
+script = ExtResource("1_uoj4d")
