@@ -46,8 +46,8 @@ func _check_all_platforms_occupied(platform):
 			all_occupied = false
 			break
 
-	if all_occupied:
-		_load_next_level()
+	#if all_occupied:
+		#_load_next_level()
 
 func _load_next_level():
 	print("All platforms are occupied! Loading next level...")

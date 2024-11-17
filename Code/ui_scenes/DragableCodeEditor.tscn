@@ -146,20 +146,19 @@ metadata/_edit_lock_ = true
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme = ExtResource("2_cdpth")
-text = ">>"
+text = " Run >> "
 script = ExtResource("10_jquk4")
 metadata/_edit_lock_ = true
 
-[node name="ButtonStep" type="Button" parent="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/Footer"]
+[node name="ButtonReset" type="Button" parent="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/Footer"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme = ExtResource("2_cdpth")
-disabled = true
 shortcut = SubResource("Shortcut_g6ykv")
-text = ">"
-metadata/_edit_lock_ = true
+text = " Reset <- "
 
 [node name="ButtonStop" type="Button" parent="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/Footer"]
+visible = false
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme = ExtResource("2_cdpth")
@@ -196,6 +195,6 @@ resized_component_path = NodePath("../..")
 [connection signal="gui_input" from="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/MainCodeEditor" to="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/MainCodeEditor" method="_on_gui_input"]
 [connection signal="text_changed" from="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/MainCodeEditor" to="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/MainCodeEditor" method="_on_text_changed"]
 [connection signal="pressed" from="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/Footer/ButtonRun" to="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/Footer/ButtonRun" method="_on_pressed"]
-[connection signal="pressed" from="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/Footer/ButtonStep" to="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/MainCodeEditor" method="_on_button_step_pressed"]
+[connection signal="pressed" from="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/Footer/ButtonReset" to="ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/Footer/ButtonRun" method="_on_button_reset_pressed"]
 [connection signal="mouse_entered" from="ControlRoot/DraggablePanel/ResizeCorner" to="ControlRoot/DraggablePanel/ResizeCorner" method="mouse_entered"]
 [connection signal="mouse_exited" from="ControlRoot/DraggablePanel/ResizeCorner" to="ControlRoot/DraggablePanel/ResizeCorner" method="mouse_exited"]

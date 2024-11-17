@@ -44,19 +44,19 @@ func _process(_delta):
 		if commands.size() > 0:
 			var c = commands.pop_front()
 			match c:
-				'd':
+				'moveSouth()':
 					_on_node_down()
-				'u':
+				'moveNorth()':
 					_on_node_up()
-				'l':
+				'moveWest()':
 					_on_node_left()
-				'r':
+				'moveEast()':
 					_on_node_right()
-				'p':
+				'push()':
 					_on_pick_up()
-				'rc':
+				'rotateLeft()':
 					_on_node_rotate_clockwise()
-				'rcc':
+				'rotateRight()':
 					_on_node_rotate_c_clockwise()
 				'cp':
 					_on_check_if_can_push()

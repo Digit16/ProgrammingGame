@@ -350,12 +350,6 @@ script = ExtResource("4_y45qn")
 [node name="PlayerRobot" parent="." instance=ExtResource("5_45nlo")]
 position = Vector2(56, 56)
 
-[node name="Box" parent="." instance=ExtResource("6_jjywg")]
-position = Vector2(87, 71)
-
-[node name="Box2" parent="." instance=ExtResource("6_jjywg")]
-position = Vector2(87, 88)
-
 [node name="EndZone" parent="." groups=["platforms"] instance=ExtResource("7_you6s")]
 z_index = 1
 position = Vector2(104, 72)
@@ -363,6 +357,12 @@ position = Vector2(104, 72)
 [node name="EndZone2" parent="." groups=["platforms"] instance=ExtResource("7_you6s")]
 z_index = 1
 position = Vector2(72, 88)
+
+[node name="Box" parent="." instance=ExtResource("6_jjywg")]
+position = Vector2(87, 71)
+
+[node name="Box2" parent="." instance=ExtResource("6_jjywg")]
+position = Vector2(87, 88)
 
 [node name="InteractionManager" parent="." groups=["interaction_manager"] instance=ExtResource("8_5uy7b")]
 

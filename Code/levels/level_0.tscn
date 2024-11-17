@@ -333,6 +333,7 @@ sources/2 = SubResource("TileSetAtlasSource_y6uth")
 sources/5 = SubResource("TileSetAtlasSource_p6k03")
 
 [node name="level_0" type="Node2D"]
+position = Vector2(-112, -232)
 scale = Vector2(3, 3)
 
 [node name="TileMap" type="TileMap" parent="." groups=["walls"]]

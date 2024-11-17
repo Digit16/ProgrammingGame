@@ -1,0 +1,130 @@
+[gd_scene load_steps=6 format=3 uid="uid://byk6y86f2duot"]
+
+[ext_resource type="Theme" uid="uid://b5uuv0ae6k3gt" path="res://default.tres" id="1_0hf3u"]
+[ext_resource type="FontFile" uid="uid://crxxdiidbhsib" path="res://monogram.ttf" id="2_hhmjj"]
+[ext_resource type="Script" path="res://ui_scripts/HideSceneButton.gd" id="3_e32me"]
+[ext_resource type="Texture2D" uid="uid://bqig8ce2q56te" path="res://ui_retro/Resizable_Corner.png" id="5_hnfex"]
+[ext_resource type="Script" path="res://ui_scripts/ResizeCorner.gd" id="6_6kalx"]
+
+[node name="Popup" type="Control" groups=["error_popup"]]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="DraggablePanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_0hf3u")
+
+[node name="MarginContainer" type="MarginContainer" parent="DraggablePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_0hf3u")
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DraggablePanel/MarginContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="ToolBar" type="HBoxContainer" parent="DraggablePanel/MarginContainer/VBoxContainer"]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="TitleEdit" type="LineEdit" parent="DraggablePanel/MarginContainer/VBoxContainer/ToolBar"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+theme = ExtResource("1_0hf3u")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_colors/selection_color = Color(0, 0, 0, 1)
+theme_override_colors/clear_button_color = Color(0, 0, 0, 1)
+theme_override_colors/clear_button_color_pressed = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 34
+text = "Error"
+alignment = 1
+max_length = 14
+editable = false
+expand_to_text_length = true
+
+[node name="PopupTextBox" type="TextEdit" parent="DraggablePanel/MarginContainer/VBoxContainer" groups=["error_popup_text"]]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_0hf3u")
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("2_hhmjj")
+theme_override_font_sizes/font_size = 32
+text = "Lorem ipsum 
+dolor sit amet,
+consectetur 
+adipiscing elit"
+editable = false
+context_menu_enabled = false
+wrap_mode = 1
+minimap_width = 40
+caret_draw_when_editable_disabled = true
+metadata/_edit_lock_ = true
+
+[node name="Footer" type="HBoxContainer" parent="DraggablePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+metadata/_edit_lock_ = true
+
+[node name="OkButton" type="Button" parent="DraggablePanel/MarginContainer/VBoxContainer/Footer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme = ExtResource("1_0hf3u")
+text = "Ok"
+script = ExtResource("3_e32me")
+metadata/_edit_lock_ = true
+
+[node name="ResizeCorner" type="TextureRect" parent="DraggablePanel"]
+visible = false
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -25.0
+offset_top = -25.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 10
+size_flags_vertical = 8
+mouse_filter = 0
+mouse_default_cursor_shape = 12
+texture = ExtResource("5_hnfex")
+expand_mode = 1
+script = ExtResource("6_6kalx")
+resized_component_path = NodePath("../..")
+
+[connection signal="caret_changed" from="DraggablePanel/MarginContainer/VBoxContainer/PopupTextBox" to="DraggablePanel/MarginContainer/VBoxContainer/PopupTextBox" method="_on_caret_changed"]
+[connection signal="gui_input" from="DraggablePanel/MarginContainer/VBoxContainer/PopupTextBox" to="DraggablePanel/MarginContainer/VBoxContainer/PopupTextBox" method="_on_gui_input"]
+[connection signal="text_changed" from="DraggablePanel/MarginContainer/VBoxContainer/PopupTextBox" to="DraggablePanel/MarginContainer/VBoxContainer/PopupTextBox" method="_on_text_changed"]
+[connection signal="pressed" from="DraggablePanel/MarginContainer/VBoxContainer/Footer/OkButton" to="DraggablePanel/MarginContainer/VBoxContainer/Footer/OkButton" method="_on_pressed"]
+[connection signal="mouse_entered" from="DraggablePanel/ResizeCorner" to="DraggablePanel/ResizeCorner" method="mouse_entered"]
+[connection signal="mouse_exited" from="DraggablePanel/ResizeCorner" to="DraggablePanel/ResizeCorner" method="mouse_exited"]
