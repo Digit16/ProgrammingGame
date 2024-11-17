@@ -192,8 +192,14 @@ Token Lexer::id()
     std::string result;
     std::map<std::string, Token> RESERVED_KEYWORDS = getReservedKeywords();
 
-    while (_currentChar != '\0' && (isalnum(_currentChar) || _currentChar == '(' || _currentChar == ')')) {
+    while (_currentChar != '\0' && isalnum(_currentChar)) {
         result += _currentChar;
+        advance();
+    }
+
+    if (_currentChar == '(' && peekNextChar() == ')') {
+        result += "()";
+        advance();
         advance();
     }
 
