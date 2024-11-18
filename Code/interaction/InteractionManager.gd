@@ -24,7 +24,8 @@ func _on_push():
 	if can_interact:
 		if active_areas.size() > 0:
 			can_interact = false
-			await active_areas[0].interact.call()
+			for area in active_areas:
+				await area.interact.call()
 			can_interact = true
 			
 func _on_can_push():

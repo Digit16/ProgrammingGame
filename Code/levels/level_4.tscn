@@ -348,6 +348,7 @@ layer_2/tile_data = PackedInt32Array(262153, 2, 0, 196617, 2, 0, 131081, 2, 0, 6
 script = ExtResource("4_frsdp")
 
 [node name="PlayerRobot" parent="." instance=ExtResource("5_pmg6m")]
+z_index = 2
 position = Vector2(72, 40)
 
 [node name="Box" parent="." instance=ExtResource("6_rfvb2")]
@@ -357,11 +358,11 @@ position = Vector2(71, 55)
 position = Vector2(71, 71)
 
 [node name="EndZone" parent="." groups=["platforms"] instance=ExtResource("7_8an80")]
-z_index = 1
+z_index = 0
 position = Vector2(104, 72)
 
 [node name="EndZone2" parent="." groups=["platforms"] instance=ExtResource("7_8an80")]
-z_index = 1
+z_index = 0
 position = Vector2(104, 88)
 
 [node name="InteractionManager" parent="." groups=["interaction_manager"] instance=ExtResource("8_riyqa")]

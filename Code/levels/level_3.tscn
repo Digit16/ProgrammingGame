@@ -349,21 +349,24 @@ layer_2/tile_data = PackedInt32Array(262153, 2, 0, 196617, 2, 0, 131081, 2, 0, 6
 script = ExtResource("4_cdt2c")
 
 [node name="PlayerRobot" parent="." instance=ExtResource("5_v21du")]
-position = Vector2(40.6667, 40)
+z_index = 3
+position = Vector2(39.6667, 40)
 
 [node name="Box" parent="." instance=ExtResource("6_xq0uy")]
-position = Vector2(56, 55.6667)
+position = Vector2(55.6667, 56)
 
 [node name="Box2" parent="." instance=ExtResource("6_xq0uy")]
-position = Vector2(56, 72)
+position = Vector2(55.6667, 72)
 
 [node name="EndZone" parent="." groups=["platforms"] instance=ExtResource("7_p85sb")]
-z_index = 1
-position = Vector2(72, 55.6667)
+z_index = 0
+position = Vector2(71.3333, 55.3333)
+scale = Vector2(0.9, 0.9)
 
 [node name="EndZone2" parent="." groups=["platforms"] instance=ExtResource("7_p85sb")]
-z_index = 1
-position = Vector2(40, 55.6667)
+z_index = 0
+position = Vector2(39, 55.3333)
+scale = Vector2(0.9, 0.9)
 
 [node name="InteractionManager" parent="." groups=["interaction_manager"] instance=ExtResource("8_t7y54")]
 

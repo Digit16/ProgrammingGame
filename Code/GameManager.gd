@@ -28,10 +28,18 @@ func get_occupied_platforms_count():
 func _initialize_boxes():
 	# Ensure boxes are initialized after they are added to the scene
 	for box in boxes:
-		box.connect("on_platform_sig", Callable(self, "_on_box_moved"))
+		box.connect("on_platform_sig", Callable(self, "_on_box_moved_in"))
+		box.connect("out_platform_sig", Callable(self, "_on_box_moved_out"))
 
-func _on_box_moved(platform):
+func _on_box_moved_in(platform):
 	_check_all_platforms_occupied(platform)
+
+func _on_box_moved_out(platform):
+	for platform_info in all_platforms:
+			if platform_info["platform"] == platform:
+				platform_info["occupied"] = false
+				print("Updated platform state:", platform)
+				break
 
 func _check_all_platforms_occupied(platform):
 	for platform_info in all_platforms:
@@ -45,9 +53,6 @@ func _check_all_platforms_occupied(platform):
 		if not platform_info["occupied"]:
 			all_occupied = false
 			break
-
-	#if all_occupied:
-		#_load_next_level()
 
 func _load_next_level():
 	print("All platforms are occupied! Loading next level...")

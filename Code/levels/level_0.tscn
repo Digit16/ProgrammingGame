@@ -358,7 +358,8 @@ collision_mask = 15
 
 [node name="EndZone" parent="." groups=["platforms"] instance=ExtResource("7_xxre3")]
 z_index = 0
-position = Vector2(56, 104)
+position = Vector2(55.6667, 103.667)
+scale = Vector2(0.9, 0.9)
 
 [node name="GameManager" parent="." groups=["game_manager"] instance=ExtResource("8_nfk0q")]
 unique_name_in_owner = true
