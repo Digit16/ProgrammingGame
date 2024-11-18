@@ -132,7 +132,7 @@ public:
 
     std::vector<std::string> getSequence();
 
-    std::shared_ptr<AstNode> buildTree(const std::string& text);
+    std::shared_ptr<AstNode> buildTree();
 
     std::shared_ptr<AstNode> interpret(std::shared_ptr<AstNode> tree);
 

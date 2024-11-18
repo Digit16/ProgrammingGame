@@ -51,6 +51,8 @@ public:
     int16_t getParsingLine() { return _parsingLine; }
     int16_t getParsingPosition() { return _parsingPosition; }
 
+    bool isBuiltInFunction(const std::string& result);
+
     std::map<std::string, Token> getReservedKeywords();
 
 private:

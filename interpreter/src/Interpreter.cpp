@@ -618,7 +618,7 @@ std::vector<std::string> Interpreter::getSequence()
     return symbolTable().sequence();
 }
 
-std::shared_ptr<AstNode> Interpreter::buildTree(const std::string& text)
+std::shared_ptr<AstNode> Interpreter::buildTree()
 {
     return _parser.parse();
 }
