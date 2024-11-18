@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
         interpreter.registerBuiltInMethod("rotateRight()");
         interpreter.registerBuiltInMethod("push()");
 
-        std::shared_ptr<AstNode> tree = interpreter.buildTree(input);
+        std::shared_ptr<AstNode> tree = interpreter.buildTree();
 
         st::SymbolTable& stRef = interpreter.symbolTable();
         SymbolTableBuilder stb;
