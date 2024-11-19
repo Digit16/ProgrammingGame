@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://ce6fhym3oywlq"]
+
+[ext_resource type="PackedScene" uid="uid://by03ax1tx0l0j" path="res://ui_scenes/CRTFilter.tscn" id="1_0c2nm"]
+[ext_resource type="Script" path="res://ui_scripts/SpawnCredits.gd" id="1_fd4m5"]
+[ext_resource type="Script" path="res://ui_scripts/ChangeToMain.gd" id="2_p7bwq"]
+[ext_resource type="Script" path="res://ui_scripts/ExitButton.gd" id="3_8jq5o"]
+[ext_resource type="PackedScene" path="res://levels/level_null.tscn" id="4_y5jkn"]
+[ext_resource type="Script" path="res://ui_scripts/StartAnimation.gd" id="6_ufy21"]
+
+[node name="NewStart" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("1_fd4m5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+offset_left = 243.0
+offset_top = 259.0
+offset_right = 299.0
+offset_bottom = 355.0
+scale = Vector2(3, 3)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StartButton" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+text = "Start"
+script = ExtResource("2_p7bwq")
+
+[node name="ContinueButton" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+disabled = true
+text = "Continue"
+
+[node name="CreditsButton" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+text = "Credits"
+
+[node name="ExitButton" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+text = "Exit"
+script = ExtResource("3_8jq5o")
+
+[node name="level_0" parent="CanvasLayer" instance=ExtResource("4_y5jkn")]
+position = Vector2(662, 206)
+
+[node name="CRTFilter" parent="." instance=ExtResource("1_0c2nm")]
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("6_ufy21")
+
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/StartButton" to="CanvasLayer/VBoxContainer/StartButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/CreditsButton" to="CanvasLayer" method="_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/ExitButton" to="CanvasLayer/VBoxContainer/ExitButton" method="_pressed"]

@@ -1,0 +1,84 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsc3kbc75mbb1"]
+
+[ext_resource type="Script" path="res://ui_scripts/RemoveSceneButton.gd" id="1_t177n"]
+[ext_resource type="Script" path="res://ui_scripts/SwitchSceneButton.gd" id="2_vclp1"]
+[ext_resource type="PackedScene" uid="uid://ce6fhym3oywlq" path="res://ui_scenes/NewStart.tscn" id="3_nevta"]
+[ext_resource type="Script" path="res://ui_scripts/ExitButton.gd" id="4_w72lh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_of1ec"]
+bg_color = Color(0.239216, 0.239216, 0.239216, 1)
+
+[node name="SettingsOverlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel2" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -138.0
+offset_right = 111.0
+offset_bottom = 138.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"SolidPanel"
+theme_override_styles/panel = SubResource("StyleBoxFlat_of1ec")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Continue"
+script = ExtResource("1_t177n")
+
+[node name="BackToMenuButton" type="Button" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Back to menu"
+script = ExtResource("2_vclp1")
+new_scene = ExtResource("3_nevta")
+
+[node name="ExitButton" type="Button" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Exit"
+script = ExtResource("4_w72lh")

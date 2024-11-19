@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://by03ax1tx0l0j"]
+
+[ext_resource type="Script" path="res://ui_scripts/CanvasLayer.gd" id="1_i5rqd"]
+[ext_resource type="Shader" path="res://control.gdshader" id="2_4fhqf"]
+[ext_resource type="Texture2D" uid="uid://dvxiugaqmtwo0" path="res://ui_assets/cursor.png" id="2_u1tvd"]
+[ext_resource type="Script" path="res://ui_scripts/Cursor.gd" id="3_vi2qm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eaicp"]
+shader = ExtResource("2_4fhqf")
+
+[node name="CRTFilter" type="CanvasLayer"]
+script = ExtResource("1_i5rqd")
+
+[node name="Cursor" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_u1tvd")
+centered = false
+script = ExtResource("3_vi2qm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_as_relative = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_eaicp")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+mouse_filter = 2

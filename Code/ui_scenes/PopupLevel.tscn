@@ -1,0 +1,119 @@
+[gd_scene load_steps=5 format=3 uid="uid://ccsq3p8k80rn0"]
+
+[ext_resource type="Theme" uid="uid://b5uuv0ae6k3gt" path="res://default.tres" id="1_ot0od"]
+[ext_resource type="Script" path="res://ui_scripts/HideSceneButton.gd" id="3_3xas7"]
+[ext_resource type="Texture2D" uid="uid://bqig8ce2q56te" path="res://ui_retro/Resizable_Corner.png" id="4_e2xtq"]
+[ext_resource type="Script" path="res://ui_scripts/ResizeCorner.gd" id="5_3ild2"]
+
+[node name="Popup" type="Control" groups=["level_popup"]]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="DraggablePanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ot0od")
+
+[node name="MarginContainer" type="MarginContainer" parent="DraggablePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ot0od")
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DraggablePanel/MarginContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="ToolBar" type="HBoxContainer" parent="DraggablePanel/MarginContainer/VBoxContainer"]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="TitleEdit" type="LineEdit" parent="DraggablePanel/MarginContainer/VBoxContainer/ToolBar"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+theme = ExtResource("1_ot0od")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_colors/selection_color = Color(0, 0, 0, 1)
+theme_override_colors/clear_button_color = Color(0, 0, 0, 1)
+theme_override_colors/clear_button_color_pressed = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 34
+text = "Success!"
+alignment = 1
+max_length = 14
+editable = false
+expand_to_text_length = true
+
+[node name="PopupTextBox" type="Label" parent="DraggablePanel/MarginContainer/VBoxContainer" groups=["level_popup_text"]]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_ot0od")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "You can proceed
+to another level!"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Footer" type="HBoxContainer" parent="DraggablePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+metadata/_edit_lock_ = true
+
+[node name="OkButton" type="Button" parent="DraggablePanel/MarginContainer/VBoxContainer/Footer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme = ExtResource("1_ot0od")
+text = "Ok"
+script = ExtResource("3_3xas7")
+metadata/_edit_lock_ = true
+
+[node name="ResizeCorner" type="TextureRect" parent="DraggablePanel"]
+visible = false
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -25.0
+offset_top = -25.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 10
+size_flags_vertical = 8
+mouse_filter = 0
+mouse_default_cursor_shape = 12
+texture = ExtResource("4_e2xtq")
+expand_mode = 1
+script = ExtResource("5_3ild2")
+resized_component_path = NodePath("../..")
+
+[connection signal="pressed" from="DraggablePanel/MarginContainer/VBoxContainer/Footer/OkButton" to="DraggablePanel/MarginContainer/VBoxContainer/Footer/OkButton" method="_on_pressed"]
+[connection signal="mouse_entered" from="DraggablePanel/ResizeCorner" to="DraggablePanel/ResizeCorner" method="mouse_entered"]
+[connection signal="mouse_exited" from="DraggablePanel/ResizeCorner" to="DraggablePanel/ResizeCorner" method="mouse_exited"]

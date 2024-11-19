@@ -1,0 +1,121 @@
+[gd_scene load_steps=11 format=3 uid="uid://cj2sexcpt1q4q"]
+
+[ext_resource type="PackedScene" uid="uid://dgm4e3dj1l320" path="res://levels/level_0.tscn" id="1_4kjc0"]
+[ext_resource type="PackedScene" uid="uid://3tvr6ayegv2x" path="res://ui_scenes/DragableCodeEditor.tscn" id="2_muupc"]
+[ext_resource type="PackedScene" uid="uid://byk6y86f2duot" path="res://ui_scenes/Popup.tscn" id="3_4n7vu"]
+[ext_resource type="Theme" uid="uid://b5uuv0ae6k3gt" path="res://default.tres" id="3_piwo1"]
+[ext_resource type="Texture2D" uid="uid://cgje3lmsmwll0" path="res://ui_assets/ui_buttons_settings.tres" id="4_b1mge"]
+[ext_resource type="PackedScene" uid="uid://ccsq3p8k80rn0" path="res://ui_scenes/PopupLevel.tscn" id="4_gast1"]
+[ext_resource type="PackedScene" uid="uid://bys5clq31myhl" path="res://ui_scenes/PopupWin.tscn" id="5_4jscu"]
+[ext_resource type="Script" path="res://ui_scripts/SettingsOverlayButton.gd" id="5_a14h4"]
+[ext_resource type="PackedScene" uid="uid://c5bldtksu82ii" path="res://ui_scenes/PopupText.tscn" id="5_ut4c2"]
+[ext_resource type="PackedScene" uid="uid://by03ax1tx0l0j" path="res://ui_scenes/CRTFilter.tscn" id="6_8clgr"]
+
+[node name="Root" type="Node"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -2
+
+[node name="Levels" type="CenterContainer" parent="CanvasLayer" groups=["levels"]]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="level_0" parent="CanvasLayer/Levels" instance=ExtResource("1_4kjc0")]
+position = Vector2(-122, -234)
+
+[node name="Windows" type="Node" parent="CanvasLayer"]
+
+[node name="Control" parent="CanvasLayer/Windows" instance=ExtResource("2_muupc")]
+position = Vector2(280, 178)
+
+[node name="Popup" parent="CanvasLayer" instance=ExtResource("3_4n7vu")]
+visible = false
+z_index = 8
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PopupLevel" parent="CanvasLayer" instance=ExtResource("4_gast1")]
+visible = false
+z_index = 9
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = 150.0
+offset_bottom = -550.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="IntroPopup" parent="CanvasLayer" instance=ExtResource("5_ut4c2")]
+visible = false
+z_index = 15
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WinPopup" parent="CanvasLayer" groups=["win_popup"] instance=ExtResource("5_4jscu")]
+visible = false
+z_index = 30
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -329.0
+offset_bottom = 299.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ControlUI" type="Control" parent="CanvasLayer"]
+z_index = 12
+z_as_relative = false
+y_sort_enabled = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SettingsOverlayButton" type="Button" parent="CanvasLayer/ControlUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -152.0
+offset_top = 96.0
+offset_right = -96.0
+offset_bottom = 152.0
+grow_horizontal = 0
+theme = ExtResource("3_piwo1")
+icon = ExtResource("4_b1mge")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("5_a14h4")
+
+[node name="crt_filter" parent="." instance=ExtResource("6_8clgr")]
+layer = -1
+
+[connection signal="pressed" from="CanvasLayer/PopupLevel/DraggablePanel/MarginContainer/VBoxContainer/Footer/OkButton" to="CanvasLayer/Windows/Control/ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/Footer/ButtonRun" method="_on_level_ok_button_pressed"]
+
+[editable path="CanvasLayer/Levels/level_0"]
+[editable path="CanvasLayer/Windows/Control"]
+[editable path="CanvasLayer/PopupLevel"]
