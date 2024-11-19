@@ -18,8 +18,9 @@ func _ready():
 	interaction_area.interact = Callable(self, "_on_interact")
 	interaction_area.can_interact = Callable(self, "_on_can_interact")
 	previous_position = position
-	area2d.connect("area_entered", Callable(self, "_on_area_entered"))
 	area2d.connect("area_exited", Callable(self, "_on_area_exited"))
+	area2d.connect("area_entered", Callable(self, "_on_area_entered"))
+	
 
 func _process(delta):
 	# Detect if position has changed
@@ -51,14 +52,18 @@ func _on_can_interact() -> bool:
 
 func _on_area_entered(area):
 	if area.is_in_group("platforms"):
-		on_platform = area
-		print("Box is on the platform!")
-		emit_signal("on_platform_sig", area)
-		
+		call_deferred("_handle_area_entered", area)
+
+func _handle_area_entered(area):
+	on_platform = area
+	print("Box is on the platform!")
+	emit_signal("on_platform_sig", area)
+
 func _on_area_exited(area):
 	if area.is_in_group("platforms"):
 		print("Box has left the platform!")
 		emit_signal("out_platform_sig", on_platform)
 		on_platform = null
+
 	
 
