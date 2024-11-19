@@ -160,23 +160,15 @@ char Lexer::peekNextChar()
     return this->_text[this->_pos + 1];
 }
 
-bool Lexer::isBuiltInFunction(const std::string& result)
-{
-    for (const auto& fun : _builtInMethods) {
-        std::string function = fun;
-        function.pop_back();
-        function.pop_back();
-
-        if (result == function) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 std::map<std::string, Token> Lexer::getReservedKeywords()
 {
+    if (_builtInMethods.empty()) {
+        std::cout << "chuj bombki szczelyl" << std::endl;
+    }
+    for (const auto& fun : _builtInMethods) {
+        std::cout << fun << std::endl;
+    }
+
     std::map<std::string, Token> RESERVED_KEYWORDS{
         {"START", Token("START", TokenType::START)               },
         {"END",   Token("END",   TokenType::END)                 },
@@ -205,7 +197,7 @@ Token Lexer::id()
         advance();
     }
 
-    if (_currentChar == '(' && peekNextChar() == ')' && isBuiltInFunction(result)) {
+    if (_currentChar == '(' && peekNextChar() == ')') {
         result += "()";
         advance();
         advance();
