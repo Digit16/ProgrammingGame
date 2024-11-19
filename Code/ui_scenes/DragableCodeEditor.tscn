@@ -10,7 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://ce0cwas8utfp6" path="res://ui_audio/type1.wav" id="8_r2e88"]
 [ext_resource type="AudioStream" uid="uid://jmyg3h2r1y6m" path="res://ui_audio/type2.wav" id="9_j2r47"]
 [ext_resource type="Texture2D" uid="uid://bqig8ce2q56te" path="res://ui_retro/Resizable_Corner.png" id="10_2qn5e"]
-[ext_resource type="Script" path="res://ui_scenes/RunGame.gd" id="10_jquk4"]
+[ext_resource type="Script" path="res://ui_scripts/RunGame.gd" id="10_jquk4"]
 [ext_resource type="Script" path="res://ui_scripts/ResizeCorner.gd" id="11_lkgb3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n7gyf"]
@@ -120,10 +120,9 @@ theme_override_constants/line_spacing = 0
 theme_override_fonts/font = ExtResource("5_cjyos")
 theme_override_font_sizes/font_size = 32
 theme_override_icons/bookmark = ExtResource("6_6ri5e")
-text = "Lorem ipsum 
-dolor sit amet,
-consectetur 
-adipiscing elit"
+text = "START
+  moveWest();
+END."
 context_menu_enabled = false
 minimap_width = 40
 caret_draw_when_editable_disabled = true

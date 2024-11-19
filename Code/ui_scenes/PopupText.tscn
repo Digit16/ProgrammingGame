@@ -1,0 +1,119 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5bldtksu82ii"]
+
+[ext_resource type="Theme" uid="uid://b5uuv0ae6k3gt" path="res://default.tres" id="1_we0e1"]
+[ext_resource type="Script" path="res://ui_scripts/HideSceneButton.gd" id="2_8head"]
+[ext_resource type="Texture2D" uid="uid://bqig8ce2q56te" path="res://ui_retro/Resizable_Corner.png" id="3_7se11"]
+[ext_resource type="Script" path="res://ui_scripts/ResizeCorner.gd" id="4_7rptj"]
+
+[node name="Popup" type="Control" groups=["text_popup"]]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -400.0
+offset_top = -250.0
+offset_right = 400.0
+offset_bottom = 250.0
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="DraggablePanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.9
+offset_bottom = -3.05176e-05
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_we0e1")
+
+[node name="MarginContainer" type="MarginContainer" parent="DraggablePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_we0e1")
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DraggablePanel/MarginContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="ToolBar" type="HBoxContainer" parent="DraggablePanel/MarginContainer/VBoxContainer"]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="TitleEdit" type="LineEdit" parent="DraggablePanel/MarginContainer/VBoxContainer/ToolBar"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+theme = ExtResource("1_we0e1")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_colors/selection_color = Color(0, 0, 0, 1)
+theme_override_colors/clear_button_color = Color(0, 0, 0, 1)
+theme_override_colors/clear_button_color_pressed = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 34
+text = "Welcome!"
+alignment = 1
+max_length = 14
+editable = false
+expand_to_text_length = true
+
+[node name="PopupTextBox" type="Label" parent="DraggablePanel/MarginContainer/VBoxContainer" groups=["text_popup_text"]]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_we0e1")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "At the invitation of the AstroTek corporation, you embark on a mission to the planet Mercury – a place bathed in a harsh, scorching desert. Your task? To program specialized robots for transporting minerals from deep within the planet to the surface, where they await further processing. As the lead programmer, the success of the complex mining operation rests on your shoulders – one error in the code, and the entire operation could grind to a halt. Mercury is unforgiving, and the complexity of the tasks ahead of you is only increasing..."
+horizontal_alignment = 1
+autowrap_mode = 3
+metadata/_edit_lock_ = true
+
+[node name="Footer" type="HBoxContainer" parent="DraggablePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+metadata/_edit_lock_ = true
+
+[node name="OkButton" type="Button" parent="DraggablePanel/MarginContainer/VBoxContainer/Footer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme = ExtResource("1_we0e1")
+text = "Ok"
+script = ExtResource("2_8head")
+metadata/_edit_lock_ = true
+
+[node name="ResizeCorner" type="TextureRect" parent="DraggablePanel"]
+visible = false
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -25.0
+offset_top = -25.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 10
+size_flags_vertical = 8
+mouse_filter = 0
+mouse_default_cursor_shape = 12
+texture = ExtResource("3_7se11")
+expand_mode = 1
+script = ExtResource("4_7rptj")
+resized_component_path = NodePath("../..")
+
+[connection signal="pressed" from="DraggablePanel/MarginContainer/VBoxContainer/Footer/OkButton" to="DraggablePanel/MarginContainer/VBoxContainer/Footer/OkButton" method="_on_pressed"]
+[connection signal="mouse_entered" from="DraggablePanel/ResizeCorner" to="DraggablePanel/ResizeCorner" method="mouse_entered"]
+[connection signal="mouse_exited" from="DraggablePanel/ResizeCorner" to="DraggablePanel/ResizeCorner" method="mouse_exited"]

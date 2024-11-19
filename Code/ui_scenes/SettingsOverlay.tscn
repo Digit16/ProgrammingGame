@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://ui_scripts/RemoveSceneButton.gd" id="1_t177n"]
 [ext_resource type="Script" path="res://ui_scripts/SwitchSceneButton.gd" id="2_vclp1"]
-[ext_resource type="PackedScene" uid="uid://oe48o5sqeyw8" path="res://ui_scenes/Start.tscn" id="3_nevta"]
+[ext_resource type="PackedScene" uid="uid://ce6fhym3oywlq" path="res://ui_scenes/NewStart.tscn" id="3_nevta"]
 [ext_resource type="Script" path="res://ui_scripts/ExitButton.gd" id="4_w72lh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_of1ec"]

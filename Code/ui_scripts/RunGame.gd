@@ -10,12 +10,6 @@ var level_sceenes = [
 	"res://levels/level_5.tscn"
 ]
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	frame += 1
 	if frame % 30 == 0:
@@ -55,13 +49,16 @@ func _on_pressed():
 
 func change_level():
 	var levels = get_tree().get_first_node_in_group("levels")
-	for level in levels.get_children():
-		remove_child(level)
-		level.free()
 	if level_sceenes.size() > 1:
+		for level in levels.get_children():
+			remove_child(level)
+			level.free()
+		
 		level_sceenes.pop_front()
 		levels.add_child(load(level_sceenes[0]).instantiate())
-	
+	else:
+		var win_popup = get_tree().get_first_node_in_group("win_popup")
+		win_popup.visible = true
 	
 func reset_level():
 	var levels = get_tree().get_first_node_in_group("levels")

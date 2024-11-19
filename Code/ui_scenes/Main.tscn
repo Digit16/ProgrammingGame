@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cj2sexcpt1q4q"]
+[gd_scene load_steps=11 format=3 uid="uid://cj2sexcpt1q4q"]
 
 [ext_resource type="PackedScene" uid="uid://dgm4e3dj1l320" path="res://levels/level_0.tscn" id="1_4kjc0"]
 [ext_resource type="PackedScene" uid="uid://3tvr6ayegv2x" path="res://ui_scenes/DragableCodeEditor.tscn" id="2_muupc"]
@@ -6,7 +6,9 @@
 [ext_resource type="Theme" uid="uid://b5uuv0ae6k3gt" path="res://default.tres" id="3_piwo1"]
 [ext_resource type="Texture2D" uid="uid://cgje3lmsmwll0" path="res://ui_assets/ui_buttons_settings.tres" id="4_b1mge"]
 [ext_resource type="PackedScene" uid="uid://ccsq3p8k80rn0" path="res://ui_scenes/PopupLevel.tscn" id="4_gast1"]
+[ext_resource type="PackedScene" uid="uid://bys5clq31myhl" path="res://ui_scenes/PopupWin.tscn" id="5_4jscu"]
 [ext_resource type="Script" path="res://ui_scripts/SettingsOverlayButton.gd" id="5_a14h4"]
+[ext_resource type="PackedScene" uid="uid://c5bldtksu82ii" path="res://ui_scenes/PopupText.tscn" id="5_ut4c2"]
 [ext_resource type="PackedScene" uid="uid://by03ax1tx0l0j" path="res://ui_scenes/CRTFilter.tscn" id="6_8clgr"]
 
 [node name="Root" type="Node"]
@@ -57,6 +59,28 @@ offset_bottom = -550.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="IntroPopup" parent="CanvasLayer" instance=ExtResource("5_ut4c2")]
+visible = false
+z_index = 15
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WinPopup" parent="CanvasLayer" groups=["win_popup"] instance=ExtResource("5_4jscu")]
+visible = false
+z_index = 30
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="ControlUI" type="Control" parent="CanvasLayer"]
 z_index = 12
 z_as_relative = false
@@ -88,13 +112,7 @@ script = ExtResource("5_a14h4")
 [node name="crt_filter" parent="." instance=ExtResource("6_8clgr")]
 layer = -1
 
-[connection signal="mouse_entered" from="CanvasLayer/Windows/Control/ControlRoot/DraggablePanel" to="CanvasLayer/Windows/Control" method="mouse_entered"]
-[connection signal="mouse_exited" from="CanvasLayer/Windows/Control/ControlRoot/DraggablePanel" to="CanvasLayer/Windows/Control" method="mouse_exited"]
-[connection signal="mouse_entered" from="CanvasLayer/Windows/Control/ControlRoot/DraggablePanel/ResizeCorner" to="CanvasLayer/Windows/Control/ControlRoot/DraggablePanel/ResizeCorner" method="mouse_entered"]
-[connection signal="mouse_exited" from="CanvasLayer/Windows/Control/ControlRoot/DraggablePanel/ResizeCorner" to="CanvasLayer/Windows/Control/ControlRoot/DraggablePanel/ResizeCorner" method="mouse_exited"]
 [connection signal="pressed" from="CanvasLayer/PopupLevel/DraggablePanel/MarginContainer/VBoxContainer/Footer/OkButton" to="CanvasLayer/Windows/Control/ControlRoot/DraggablePanel/MarginContainer/VBoxContainer/Footer/ButtonRun" method="_on_level_ok_button_pressed"]
-[connection signal="mouse_entered" from="CanvasLayer/PopupLevel/DraggablePanel/ResizeCorner" to="CanvasLayer/PopupLevel/DraggablePanel/ResizeCorner" method="mouse_entered"]
-[connection signal="mouse_exited" from="CanvasLayer/PopupLevel/DraggablePanel/ResizeCorner" to="CanvasLayer/PopupLevel/DraggablePanel/ResizeCorner" method="mouse_exited"]
 
 [editable path="CanvasLayer/Levels/level_0"]
 [editable path="CanvasLayer/Windows/Control"]

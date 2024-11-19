@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://ui_scripts/RemoveSceneButton.gd" id="1_123ay"]
 
 [node name="CreditsPanel" type="Panel"]
+z_index = 50
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,28 +18,41 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 80
-theme_override_constants/margin_top = 80
+theme_override_constants/margin_top = 120
 theme_override_constants/margin_right = 80
-theme_override_constants/margin_bottom = 80
+theme_override_constants/margin_bottom = 120
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
 layout_mode = 2
 horizontal_scroll_mode = 0
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer"]
-custom_minimum_size = Vector2(800, 400)
+custom_minimum_size = Vector2(800, 600)
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 36
-text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id purus et mi fermentum imperdiet. Aenean in est sit amet elit suscipit cursus. Nullam vel mollis ipsum. Vivamus et feugiat nulla, ut posuere sapien. Donec mollis semper odio in mattis. Nam pulvinar, massa vel egestas ornare, mauris nisi blandit tellus, non auctor tortor massa non nulla. Nam dictum semper commodo. Sed maximus quam a lorem eleifend, sollicitudin ultricies lectus convallis. In molestie maximus leo, bibendum egestas nibh vehicula a.
+text = "CREDITS
 
-Vivamus vitae convallis mi. Quisque eu ipsum iaculis, gravida libero feugiat, convallis felis. Ut id placerat ligula. In posuere, lorem vitae faucibus cursus, tellus sapien vehicula eros, a sollicitudin libero ante ut velit. Sed et metus turpis. Praesent ultricies velit sit amet neque accumsan, a tristique odio mattis. Nullam fermentum velit nec blandit maximus. Integer rutrum blandit sapien quis interdum.
+Interpreter Development
+Wiktor Kubski
 
-Etiam tristique lorem sed pretium auctor. Proin convallis imperdiet augue. Integer scelerisque nunc ornare nisi ultrices fringilla. Donec pharetra lectus sit amet enim euismod, sit amet ultricies libero cursus. Maecenas lacinia, est sit amet consectetur placerat, diam lacus auctor nulla, quis iaculis arcu lorem porttitor mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed at lacus id nunc ornare imperdiet eu ac orci.
+Interpreter Integration & UI Design
+Tomasz Wrobel
 
-Donec vitae interdum tortor, pulvinar tincidunt massa. Sed faucibus congue erat non molestie. Vestibulum semper dictum dui, sed malesuada ligula elementum et. Vivamus cursus dignissim sodales. Duis sollicitudin urna id accumsan laoreet. Phasellus maximus nulla at nibh ultricies aliquet. Maecenas commodo justo eu erat accumsan, in fringilla eros condimentum. In sit amet hendrerit erat. Aliquam justo dolor, egestas ut scelerisque ac, interdum a nulla. Quisque sollicitudin eget elit nec mollis. Sed maximus enim a rhoncus dictum. Suspendisse id est scelerisque, tincidunt sem eu, volutpat est. Integer vel odio nisi. Curabitur luctus nec mi ut ultrices. Aenean at arcu auctor, tincidunt orci eget, eleifend sapien. Etiam placerat erat ac libero elementum porta.
+Game & Level Design
+Mikolaj Lebioda
 
-Donec urna nulla, facilisis in fermentum rhoncus, facilisis non nibh. Donec et erat mattis, ullamcorper eros vitae, facilisis dolor. Fusce consectetur scelerisque luctus. Curabitur tristique fermentum ultricies. Sed fermentum purus sem, ac interdum orci gravida aliquam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam erat volutpat. Donec condimentum, mauris at malesuada malesuada, augue tortor faucibus nulla, consectetur aliquam neque mauris aliquam mauris. Curabitur eleifend sagittis pharetra. Maecenas ac ipsum non arcu iaculis mattis. Curabitur sit amet est urna. Nullam suscipit congue velit, nec dapibus enim. Nullam cursus sagittis mi vel interdum. Fusce ac arcu mauris. Ut ut turpis diam."
+Used Assets
+
+    Top Sci-Fi CGA Tileset by Jerom
+    Simple Character Base by zaphgames
+    UI Buttons by Kicked-inTeeth  -  https://kicked-in-teeth.itch.io/button-ui
+	Retro gui by comp3interactive  -  https://comp3interactive.itch.io/retro-windows-gui
+
+Special Thanks
+To the visionary works of Isaac Asimov, whose exploration of robotics and the future continues to inspire.
+
+Thanks for playing!"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -49,9 +63,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -36.0
-offset_top = 30.0
+offset_top = 60.0
 offset_right = 36.0
-offset_bottom = 67.0
+offset_bottom = 97.03
 grow_horizontal = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
