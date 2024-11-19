@@ -162,13 +162,6 @@ char Lexer::peekNextChar()
 
 std::map<std::string, Token> Lexer::getReservedKeywords()
 {
-    if (_builtInMethods.empty()) {
-        std::cout << "chuj bombki szczelyl" << std::endl;
-    }
-    for (const auto& fun : _builtInMethods) {
-        std::cout << fun << std::endl;
-    }
-
     std::map<std::string, Token> RESERVED_KEYWORDS{
         {"START", Token("START", TokenType::START)               },
         {"END",   Token("END",   TokenType::END)                 },
