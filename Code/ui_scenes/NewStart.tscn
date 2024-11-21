@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://ui_scripts/SpawnCredits.gd" id="1_fd4m5"]
 [ext_resource type="Script" path="res://ui_scripts/ChangeToMain.gd" id="2_p7bwq"]
 [ext_resource type="Script" path="res://ui_scripts/ExitButton.gd" id="3_8jq5o"]
-[ext_resource type="PackedScene" path="res://levels/level_null.tscn" id="4_y5jkn"]
+[ext_resource type="PackedScene" uid="uid://cgfd0av8u0qo3" path="res://levels/level_null.tscn" id="4_y5jkn"]
 [ext_resource type="Script" path="res://ui_scripts/StartAnimation.gd" id="6_ufy21"]
 
 [node name="NewStart" type="Control"]

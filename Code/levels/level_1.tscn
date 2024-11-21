@@ -349,7 +349,7 @@ script = ExtResource("4_y45qn")
 
 [node name="PlayerRobot" parent="." instance=ExtResource("5_45nlo")]
 z_index = 2
-position = Vector2(56, 56)
+position = Vector2(55.3333, 55.6667)
 
 [node name="EndZone" parent="." groups=["platforms"] instance=ExtResource("7_you6s")]
 z_index = 1
