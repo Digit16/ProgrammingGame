@@ -5,11 +5,6 @@
 void Lexer::registerBuiltInMethod(const std::string& functionName)
 {
     auto [it, res] = _builtInMethods.insert(functionName);
-    if (res) {
-        std::cout << "success" << std::endl;
-    } else {
-        std::cout << "lypton" << std::endl;
-    }
 }
 
 void Lexer::advance()

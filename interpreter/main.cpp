@@ -77,3 +77,59 @@ int main(int argc, char* argv[])
 
     return 1;
 }
+
+// #include <algorithm>
+// #include <cmath>
+// #include <cstdint>
+// #include <iostream>
+// #include <set>
+
+// uint64_t hamber(uint64_t n)
+// {
+//     std::set<uint64_t> numbers;
+
+//     uint64_t prevThresh = 0;
+//     uint64_t threshold = 3;
+//     uint64_t x = 0;
+//     uint64_t y = 0;
+//     uint64_t z = 0;
+
+//     uint64_t result = 0;
+//     while (numbers.size() < n) {
+//         x = prevThresh;
+//         y = prevThresh;
+//         z = prevThresh;
+//         for (; z < threshold; ++z) {
+//             y = prevThresh;
+//             x = prevThresh;
+//             for (; y < threshold; ++y) {
+//                 x = prevThresh;
+//                 for (; x < threshold; ++x) {
+//                     result = pow(2, x) * pow(3, y) * pow(5, z);
+//                     std::cout << x << " " << y << " " << z << " = " << result << std::endl;
+//                     numbers.insert(result);
+//                 }
+//             }
+//         }
+
+//         x = y = z = threshold;
+//         prevThresh += 2;
+//         threshold += 2;
+//     }
+
+//     auto it = numbers.begin();
+//     for (int i = 0; i < n; ++i) {
+//         it++;
+//     }
+
+//     it--;
+
+//     return *it;
+// }
+
+// int main(int, char* argv[])
+// {
+//     uint64_t arg = std::stoi(argv[1]);
+//     std::cout << hamber(arg) << std::endl;
+//     return 0;
+// }
