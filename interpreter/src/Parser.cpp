@@ -190,7 +190,7 @@ std::shared_ptr<AstNode> Parser::statement()
     } else if (_currentToken.getType() == TokenType::VARIABLE_DECLARATION) {
         return variableDeclaration();
     } else if (_currentToken.getType() == TokenType::ID) {
-        if (_lexer.peekNextToken().getType() == TokenType::LPAREN) {
+        if (std::string value = _currentToken.getStringValue(); value.at(value.size() - 2) == '(' && value.at(value.size() - 1) == ')') {
             return functionCall();
         } else {
             return assignmentStatement();
@@ -301,8 +301,8 @@ std::shared_ptr<AstNode> Parser::functionDeclaration()
     eat(TokenType::FUN_DECLARATION);
     std::string functionName = _currentToken.getStringValue();
     eat(TokenType::ID);
-    eat(TokenType::LPAREN);
-    eat(TokenType::RPAREN);
+    // eat(TokenType::LPAREN);
+    // eat(TokenType::RPAREN);
     eat(TokenType::COLON);
     eat(TokenType::START);
 
@@ -320,8 +320,8 @@ std::shared_ptr<AstNode> Parser::functionCall()
 {
     const std::string functionName = _currentToken.getStringValue();
     eat(TokenType::ID);
-    eat(TokenType::LPAREN);
-    eat(TokenType::RPAREN);
+    // eat(TokenType::LPAREN);
+    // eat(TokenType::RPAREN);
 
     return std::make_shared<FunCall>(functionName);
 }
